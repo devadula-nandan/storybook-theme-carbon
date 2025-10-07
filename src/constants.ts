@@ -6,7 +6,7 @@ export const EVENTS = {
   REQUEST: `${ADDON_ID}/request`,
 };
 
-export const KEY = "carbonTheme";
+export const THEME_KEY = "carbonTheme";
 
 export const THEMES = [
   { value: "white", title: "White" },

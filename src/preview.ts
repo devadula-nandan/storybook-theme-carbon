@@ -10,7 +10,7 @@
  */
 import type { ProjectAnnotations, Renderer } from "storybook/internal/types";
 
-import { KEY } from "./constants";
+import { THEME_KEY } from "./constants";
 import { withGlobals } from "./withGlobals";
 
 /**
@@ -20,8 +20,13 @@ import { withGlobals } from "./withGlobals";
 
 const preview: ProjectAnnotations<Renderer> = {
   decorators: [withGlobals],
+  parameters: {
+    docs: {
+      codePanel: true,
+    },
+  },
   initialGlobals: {
-    [KEY]: "white",
+    [THEME_KEY]: "white",
   },
 };
 

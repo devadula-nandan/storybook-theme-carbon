@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "themes storybook with 4 base carbon themes, adds data-carbon-theme to provided nodes",
   "keywords": [
-    "storybook-carbon-theme", "carbon-theme", "storybook-addons"
+    "storybook-carbon-theme",
+    "carbon-theme",
+    "storybook-addons"
   ],
   "repository": {
     "type": "git",
@@ -48,6 +50,7 @@
     "@storybook/icons": "^1.6.0"
   },
   "devDependencies": {
+    "@carbon/themes": "^11.61.0",
     "@storybook/addon-docs": "^9.1.0",
     "@storybook/react-vite": "^9.1.0",
     "@types/node": "^22",
@@ -91,7 +94,9 @@
   "storybook": {
     "displayName": "storybook-carbon-theme",
     "supportedFrameworks": [
-      "web-components", "react", "agnostic"
+      "web-components",
+      "react",
+      "agnostic"
     ],
     "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
   }

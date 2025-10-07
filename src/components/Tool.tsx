@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useCallback } from "react";
 import { useGlobals, addons, type API } from "storybook/manager-api";
 import { themes } from "storybook/theming";
 import {
@@ -6,8 +6,12 @@ import {
   TooltipLinkList,
   WithTooltip,
 } from "storybook/internal/components";
-import { ADDON_ID, KEY, THEMES } from "../constants";
-import {} from "storybook/manager-api";
+import { ADDON_ID, THEME_KEY, THEMES } from "../constants";
+import { toolbar } from "./theme-parts/toolbar";
+import { sidenav } from "./theme-parts/sidenav";
+import { panel } from "./theme-parts/panel";
+import { common } from "./theme-parts/common";
+import { carbonVariables } from "./theme-parts/carbon-theme-variables";
 
 const ThemeIcon = () => (
   <svg
@@ -26,47 +30,69 @@ const ThemeIcon = () => (
   </svg>
 );
 
+/** Generic function to inject multiple CSS strings into the document head */
+const injectStyles = (styles: { id: string; css: string }[]) => {
+  styles.forEach(({ id, css }) => {
+    if (document.getElementById(id)) return; // skip if already injected
 
+    const styleEl = document.createElement("style");
+    styleEl.id = id;
+    styleEl.textContent = css;
+    document.head.appendChild(styleEl);
+  });
+};
 
+/** Utility to detect preferred theme or local saved theme */
+const getInitialCarbonTheme = (): string => {
+  let storedTheme = localStorage.getItem("storybook-carbon-theme");
 
-let carbonTheme = localStorage.getItem("data-carbon-theme");
+  if (!storedTheme) {
+    const prefersDark = window.matchMedia?.(
+      "(prefers-color-scheme: dark)",
+    )?.matches;
+    storedTheme = prefersDark ? "g90" : "white";
+    localStorage.setItem("storybook-carbon-theme", storedTheme);
+  }
 
-if (!carbonTheme) {
-  const prefersDark = window.matchMedia?.(
-    "(prefers-color-scheme: dark)",
-  )?.matches;
-  carbonTheme = prefersDark ? "g90" : "white";
-  localStorage.setItem("data-carbon-theme", carbonTheme);
-}
+  return storedTheme;
+};
 
-const isLightTheme = ["white", "g10"].includes(carbonTheme);
+/** Apply theme globally to Storybook + DOM */
+const applyTheme = (themeValue: string) => {
+  const isLight = ["white", "g10"].includes(themeValue);
 
-addons.setConfig({
-  theme: isLightTheme ? themes.light : themes.dark,
-});
+  injectStyles([
+    { id: "carbon-theme-variables", css: carbonVariables },
+    { id: "carbon-toolbar-style", css: toolbar },
+    { id: "carbon-sidenav-style", css: sidenav },
+    { id: "carbon-panel-style", css: panel },
+    { id: "carbon-common-style", css: common },
+  ]);
+  document.documentElement.setAttribute("storybook-carbon-theme", themeValue);
+  localStorage.setItem("storybook-carbon-theme", themeValue);
+  // @ts-ignore
+  window.selectedTheme = themeValue;
 
+  addons.setConfig({
+    theme: isLight ? themes.light : themes.dark,
+  });
+};
 
+// Initialize theme on load
+const initialTheme = getInitialCarbonTheme();
+applyTheme(initialTheme);
 
-
-
-export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
+export const Tool = memo(function ThemeSelector({ api }: { api: API }) {
   const [globals, updateGlobals] = useGlobals();
-  const selectedTheme = globals[KEY];
+  const selectedTheme = globals[THEME_KEY];
 
-  const handleSelectTheme = (themeValue: string) => {
-    // Update Storybook global
-    updateGlobals({ [KEY]: themeValue });
-    // Update html attribute
-    document.documentElement.setAttribute("data-carbon-theme", themeValue);
-    // Save to localStorage
-    localStorage.setItem("data-carbon-theme", themeValue);
-
-    const isLightTheme = ["white", "g10"].includes(themeValue);
-
-    addons.setConfig({
-      theme: isLightTheme ? themes.light : themes.dark,
-    });
-  };
+  const handleSelectTheme = useCallback(
+    (themeValue: string) => {
+      updateGlobals({ [THEME_KEY]: themeValue });
+      applyTheme(themeValue);
+    },
+    [updateGlobals],
+  );
 
   return (
     <WithTooltip
