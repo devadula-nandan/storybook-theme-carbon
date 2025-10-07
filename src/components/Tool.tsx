@@ -1,40 +1,95 @@
-import React, { memo, useCallback, useEffect } from "react";
-import { useGlobals, type API } from "storybook/manager-api";
-import { IconButton } from "storybook/internal/components";
-import { ADDON_ID, KEY, TOOL_ID } from "../constants";
-import { LightningIcon } from "@storybook/icons";
+import React, { memo, useEffect } from "react";
+import { useGlobals, addons, type API } from "storybook/manager-api";
+import { themes } from "storybook/theming";
+import {
+  IconButton,
+  TooltipLinkList,
+  WithTooltip,
+} from "storybook/internal/components";
+import { ADDON_ID, KEY, THEMES } from "../constants";
+import {} from "storybook/manager-api";
+
+const ThemeIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 32 32"
+    fill="currentColor"
+  >
+    <circle cx="10" cy="12" r="2" />
+    <circle cx="16" cy="9" r="2" />
+    <circle cx="22" cy="12" r="2" />
+    <circle cx="23" cy="18" r="2" />
+    <circle cx="19" cy="23" r="2" />
+    <path d="M16.54,2A14,14,0,0,0,2,16a4.82,4.82,0,0,0,6.09,4.65l1.12-.31A3,3,0,0,1,13,23.24V27a3,3,0,0,0,3,3A14,14,0,0,0,30,15.46,14.05,14.05,0,0,0,16.54,2Zm8.11,22.31A11.93,11.93,0,0,1,16,28a1,1,0,0,1-1-1V23.24a5,5,0,0,0-5-5,5.07,5.07,0,0,0-1.33.18l-1.12.31A2.82,2.82,0,0,1,4,16,12,12,0,0,1,16.47,4,12.18,12.18,0,0,1,28,15.53,11.89,11.89,0,0,1,24.65,24.32Z" />
+  </svg>
+);
+
+
+
+
+let carbonTheme = localStorage.getItem("data-carbon-theme");
+
+if (!carbonTheme) {
+  const prefersDark = window.matchMedia?.(
+    "(prefers-color-scheme: dark)",
+  )?.matches;
+  carbonTheme = prefersDark ? "g90" : "white";
+  localStorage.setItem("data-carbon-theme", carbonTheme);
+}
+
+const isLightTheme = ["white", "g10"].includes(carbonTheme);
+
+addons.setConfig({
+  theme: isLightTheme ? themes.light : themes.dark,
+});
+
+
+
+
 
 export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
-  const [globals, updateGlobals, storyGlobals] = useGlobals();
+  const [globals, updateGlobals] = useGlobals();
+  const selectedTheme = globals[KEY];
 
-  const isLocked = KEY in storyGlobals;
-  const isActive = !!globals[KEY];
+  const handleSelectTheme = (themeValue: string) => {
+    // Update Storybook global
+    updateGlobals({ [KEY]: themeValue });
+    // Update html attribute
+    document.documentElement.setAttribute("data-carbon-theme", themeValue);
+    // Save to localStorage
+    localStorage.setItem("data-carbon-theme", themeValue);
 
-  const toggle = useCallback(() => {
-    updateGlobals({
-      [KEY]: !isActive,
+    const isLightTheme = ["white", "g10"].includes(themeValue);
+
+    addons.setConfig({
+      theme: isLightTheme ? themes.light : themes.dark,
     });
-  }, [isActive]);
-
-  useEffect(() => {
-    api.setAddonShortcut(ADDON_ID, {
-      label: "Toggle Measure [O]",
-      defaultShortcut: ["O"],
-      actionName: "outline",
-      showInMenu: false,
-      action: toggle,
-    });
-  }, [toggle, api]);
+  };
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      disabled={isLocked}
-      title="Enable my addon"
-      onClick={toggle}
+    <WithTooltip
+      placement="top"
+      trigger="click"
+      closeOnOutsideClick
+      tooltip={({ onHide }) => (
+        <TooltipLinkList
+          links={THEMES.map((theme) => ({
+            id: theme.value,
+            title: theme.title,
+            active: selectedTheme === theme.value,
+            onClick: () => {
+              handleSelectTheme(theme.value);
+              onHide();
+            },
+          }))}
+        />
+      )}
     >
-      <LightningIcon />
-    </IconButton>
+      <IconButton title="Theme">
+        <ThemeIcon />
+      </IconButton>
+    </WithTooltip>
   );
 });
