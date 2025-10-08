@@ -24,14 +24,14 @@ export const withGlobals = (
     document.documentElement.setAttribute("storybook-carbon-theme", carbonTheme);
 
     // need to be handled by storybook setups remove for production builds. only for testing.
-    let backgroundColors = {
-      white: '#ffffff',
-      g10: '#f4f4f4',
-      g90: '#262626',
-      g100: '#161616',
-    }
-    // @ts-ignore
-    document.body.style.backgroundColor = backgroundColors[carbonTheme];
+    // let backgroundColors = {
+    //   white: '#ffffff',
+    //   g10: '#f4f4f4',
+    //   g90: '#262626',
+    //   g100: '#161616',
+    // }
+    // // @ts-ignore
+    // document.body.style.backgroundColor = backgroundColors[carbonTheme];
 
 
     
