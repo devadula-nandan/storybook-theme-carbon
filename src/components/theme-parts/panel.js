@@ -12,6 +12,29 @@ export const panel = `
     /* Base panel background */
     background: var(--cds-background) !important;
 
+    /* Reset Controls Button */
+    button[title="Reset controls"] {
+      min-block-size: var(--cds-spacing-06) !important;
+      min-inline-size: var(--cds-spacing-06) !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      color: var(--cds-text-primary) !important;
+    }
+    /* Focus State */
+    button[title="Reset controls"]:focus {
+      box-shadow: inset 0 0 0 2px var(--cds-focus) !important;
+    }
+    /* Hover State */
+    button[title="Reset controls"]:hover,
+    a:hover {
+      background-color: var(--cds-background-hover) !important;
+    }
+    /* Active State */
+    button[title="Reset controls"]:active,
+    a:active {
+      background-color: var(--cds-background-active) !important;
+    }
+
     /* ==================================================
      ARGS TABLE
      ================================================== */
@@ -19,32 +42,6 @@ export const panel = `
       /* TABLE HEADER */
       > thead.docblock-argstable-head > tr > th > span {
         color: var(--cds-text-primary) !important;
-
-        /* Reset Controls Button */
-        button[title="Reset controls"] {
-          min-block-size: var(--cds-spacing-06) !important;
-          min-inline-size: var(--cds-spacing-06) !important;
-          border-radius: 0 !important;
-          background: transparent !important;
-          color: var(--cds-text-primary) !important;
-        }
-
-        /* Focus State */
-        button[title="Reset controls"]:focus {
-          box-shadow: inset 0 0 0 2px var(--cds-focus) !important;
-        }
-
-        /* Hover State */
-        button[title="Reset controls"]:hover,
-        a:hover {
-          background-color: var(--cds-background-hover) !important;
-        }
-
-        /* Active State */
-        button[title="Reset controls"]:active,
-        a:active {
-          background-color: var(--cds-background-active) !important;
-        }
       }
 
       /* ARGS TABLE BODY */

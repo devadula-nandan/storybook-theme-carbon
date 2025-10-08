@@ -38,7 +38,7 @@ export const Default: Story = {
 export const DummyControls = {
   name: "Dummy Controls",
   argTypes: {
-    textControl: {
+    label: {
       control: "text",
       description: "A simple text input control",
       table: { category: "Dummy Controls" },
@@ -105,7 +105,7 @@ export const DummyControls = {
     },
   },
   args: {
-    textControl: "Sample Text",
+    label: "Sample Text",
     booleanControl: true,
     numberControl: 42,
     rangeControl: 50,
