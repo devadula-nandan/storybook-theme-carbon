@@ -288,6 +288,24 @@ try{
             box-shadow: 0 0 0 2px var(--cds-focus) !important;
           }
 
+          input[role="switch"]:checked ~ span:last-of-type,
+          input[role="switch"]:not(:checked) ~ span:first-of-type {
+            background-color: var(--cds-layer-01) !important;
+          }
+
+          label:has(input[role="switch"]) {
+            background-color: var(--cds-background) !important;
+          }
+
+          input[role="switch"]:focus {
+            box-shadow: 0 0 0 2px var(--cds-focus) !important;
+          }
+
+          input[role="switch"]:checked ~ span:last-of-type,
+          input[role="switch"]:not(:checked) ~ span:first-of-type {
+            box-shadow: inset 0 0 0 1px var(--cds-border-strong) !important;
+          }
+
           /* Default: light mode */
           input[type="date"],
           input[type="time"] {
