@@ -24,6 +24,9 @@ const preview: ProjectAnnotations<Renderer> = {
     docs: {
       codePanel: true,
     },
+    controls: {
+      expanded: true,
+    },
   },
   initialGlobals: {
     [THEME_KEY]: "white",

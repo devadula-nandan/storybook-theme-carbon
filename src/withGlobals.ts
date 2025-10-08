@@ -31,7 +31,8 @@ export const withGlobals = (
       g100: '#161616',
     }
     // @ts-ignore
-    document.documentElement.style.backgroundColor = backgroundColors[carbonTheme];
+    document.body.style.backgroundColor = backgroundColors[carbonTheme];
+
 
     
     // if (!isInDocs) {
