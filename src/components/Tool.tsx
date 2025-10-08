@@ -7,11 +7,11 @@ import {
   WithTooltip,
 } from "storybook/internal/components";
 import { ADDON_ID, THEME_KEY, THEMES } from "../constants";
-import { toolbar } from "./theme-parts/toolbar";
-import { sidenav } from "./theme-parts/sidenav";
-import { panel } from "./theme-parts/panel";
-import { common } from "./theme-parts/common";
-import { carbonVariables } from "./theme-parts/carbon-theme-variables";
+import "../styles/carbon-theme-variables.scss";
+import "../styles/toolbar.scss";
+import "../styles/sidenav.scss";
+import "../styles/panel.scss";
+import "../styles/common.scss";
 
 const ThemeIcon = () => (
   <svg
@@ -29,18 +29,6 @@ const ThemeIcon = () => (
     <path d="M16.54,2A14,14,0,0,0,2,16a4.82,4.82,0,0,0,6.09,4.65l1.12-.31A3,3,0,0,1,13,23.24V27a3,3,0,0,0,3,3A14,14,0,0,0,30,15.46,14.05,14.05,0,0,0,16.54,2Zm8.11,22.31A11.93,11.93,0,0,1,16,28a1,1,0,0,1-1-1V23.24a5,5,0,0,0-5-5,5.07,5.07,0,0,0-1.33.18l-1.12.31A2.82,2.82,0,0,1,4,16,12,12,0,0,1,16.47,4,12.18,12.18,0,0,1,28,15.53,11.89,11.89,0,0,1,24.65,24.32Z" />
   </svg>
 );
-
-/** Generic function to inject multiple CSS strings into the document head */
-const injectStyles = (styles: { id: string; css: string }[]) => {
-  styles.forEach(({ id, css }) => {
-    if (document.getElementById(id)) return; // skip if already injected
-
-    const styleEl = document.createElement("style");
-    styleEl.id = id;
-    styleEl.textContent = css;
-    document.head.appendChild(styleEl);
-  });
-};
 
 /** Utility to detect preferred theme or local saved theme */
 const getInitialCarbonTheme = (): string => {
@@ -61,13 +49,6 @@ const getInitialCarbonTheme = (): string => {
 const applyTheme = (themeValue: string) => {
   const isLight = ["white", "g10"].includes(themeValue);
 
-  injectStyles([
-    { id: "carbon-theme-variables", css: carbonVariables },
-    { id: "carbon-toolbar-style", css: toolbar },
-    { id: "carbon-sidenav-style", css: sidenav },
-    { id: "carbon-panel-style", css: panel },
-    { id: "carbon-common-style", css: common },
-  ]);
   document.documentElement.setAttribute("storybook-carbon-theme", themeValue);
   localStorage.setItem("storybook-carbon-theme", themeValue);
   // @ts-ignore

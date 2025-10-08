@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { sassPlugin } from "esbuild-sass-plugin";
 
 import { defineConfig, type Options } from "tsup";
 
@@ -49,6 +50,7 @@ export default defineConfig(async (options) => {
     // keep this line commented until https://github.com/egoist/tsup/issues/1270 is resolved
     // clean: options.watch ? false : true,
     clean: false,
+    esbuildPlugins: [sassPlugin()],
   };
 
   const configs: Options[] = [];
