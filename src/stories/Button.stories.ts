@@ -1,10 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "./Button";
-import { fn } from "storybook/test";
+import { expect, fn } from "storybook/test";
 
 const meta: Meta<typeof Button> = {
   title: "Example/Button",
   component: Button,
+  play: async ({ canvas, userEvent, args }) => {
+    const button = canvas.getByRole("button");
+    await userEvent.click(button);
+
+    expect(button).toBeInTheDocument();
+    if (args.onClick) {
+      expect(args.onClick).toHaveBeenCalled();
+    }
+  },
   argTypes: {
     backgroundColor: { control: "color" },
   },
