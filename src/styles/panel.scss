@@ -1,62 +1,61 @@
 @use "@carbon/layout";
-@use "@carbon/styles/scss/theme";
-@use "@carbon/styles/scss/components/button/tokens";
+@use "@carbon/styles/scss/theme" as *;
 
 #panel-tab-content {
   height: calc(100% - 41px) !important;
   margin-top: 1px !important;
-  background: theme.$background !important;
+  background: $background !important;
 
   button[title="Reset controls"] {
     min-block-size: layout.$spacing-06 !important;
     min-inline-size: layout.$spacing-06 !important;
     border-radius: 0 !important;
     background: transparent !important;
-    color: theme.$text-primary !important;
+    color: $text-primary !important;
 
     &:focus {
-      box-shadow: inset 0 0 0 2px theme.$focus !important;
+      box-shadow: inset 0 0 0 2px $focus !important;
     }
 
     &:hover {
-      background-color: theme.$background-hover !important;
+      background-color: $background-hover !important;
     }
 
     &:active {
-      background-color: theme.$background-active !important;
+      background-color: $background-active !important;
     }
   }
 
   a {
     &:hover {
-      background-color: theme.$background-hover !important;
+      background-color: $background-hover !important;
     }
 
     &:active {
-      background-color: theme.$background-active !important;
+      background-color: $background-active !important;
     }
   }
 
   table.docblock-argstable {
     > thead.docblock-argstable-head > tr > th > span {
-      color: theme.$text-primary !important;
+      color: $text-primary !important;
     }
 
     > tbody.docblock-argstable-body {
       > tr:not([title]) > td {
-        background: theme.$background !important;
-        border-top: 1px solid theme.$border-subtle-01 !important;
+        background: $background !important;
+        border-top: 1px solid $border-subtle-01 !important;
 
         .css-mkjjps,
         .css-o1d7ko {
-          background: theme.$layer-01 !important;
-          border: 1px solid theme.$border-subtle-01 !important;
+          background: $layer-01 !important;
+          border: 1px solid $border-subtle-01 !important;
           border-radius: 0 !important;
-          color: theme.$text-secondary !important;
+          color: $text-secondary !important;
         }
 
         span[title="Required"] {
-          color: theme.$support-error !important;
+          color: $support-error !important;
         }
 
         button,
@@ -65,40 +64,40 @@
         select {
           border-radius: 0 !important;
           box-shadow: none !important;
-          background-color: theme.$layer-01 !important;
+          background-color: $layer-01 !important;
         }
 
         input:not([type="radio"]):not([type="checkbox"]):not([type="range"]),
         textarea,
         select {
-          box-shadow: inset 0 -1px 0 theme.$border-strong-01 !important;
+          box-shadow: inset 0 -1px 0 $border-strong-01 !important;
         }
 
         input:not([type="radio"]):not([type="checkbox"])::placeholder,
         textarea::placeholder,
         select::placeholder {
-          color: theme.$text-secondary !important;
+          color: $text-secondary !important;
         }
 
         button:hover,
         input:not([type="radio"]):not([type="checkbox"]):hover,
         textarea:hover,
         select:hover {
-          background-color: theme.$layer-hover-01 !important;
+          background-color: $layer-hover-01 !important;
         }
 
         button:active,
         input:not([type="radio"]):not([type="checkbox"]):active,
         textarea:active,
         select:active {
-          background-color: theme.$layer-active-01 !important;
+          background-color: $layer-active-01 !important;
         }
 
         button:focus,
         input:not([type="radio"]):not([type="checkbox"]):focus,
         textarea:focus,
         select:focus {
-          box-shadow: inset 0 0 0 2px theme.$focus !important;
+          box-shadow: inset 0 0 0 2px $focus !important;
         }
 
         input[type="radio"] {
@@ -108,8 +107,8 @@
           width: 1rem;
           height: 1rem;
           border-radius: 50%;
-          border: 1px solid theme.$icon-primary;
-          background-color: theme.$background;
+          border: 1px solid $icon-primary;
+          background-color: $background;
           cursor: pointer;
           position: relative;
           transition:
@@ -125,32 +124,32 @@
             width: 0.5rem;
             height: 0.5rem;
             border-radius: 50%;
-            background-color: theme.$icon-primary;
+            background-color: $icon-primary;
             transform: translate(-50%, -50%);
           }
 
           &:focus {
             outline: none;
-            box-shadow: 0 0 0 2px theme.$focus !important;
+            box-shadow: 0 0 0 2px $focus !important;
           }
         }
 
         input[role="switch"]:checked ~ span:last-of-type,
         input[role="switch"]:not(:checked) ~ span:first-of-type {
-          background-color: theme.$layer-01 !important;
+          background-color: $layer-01 !important;
         }
 
         label:has(input[role="switch"]) {
-          background-color: theme.$background !important;
+          background-color: $background !important;
         }
 
         input[role="switch"]:focus {
-          box-shadow: 0 0 0 2px theme.$focus !important;
+          box-shadow: 0 0 0 2px $focus !important;
         }
 
         input[role="switch"]:checked ~ span:last-of-type,
         input[role="switch"]:not(:checked) ~ span:first-of-type {
-          box-shadow: inset 0 0 0 1px theme.$border-strong-01 !important;
+          box-shadow: inset 0 0 0 1px $border-strong-01 !important;
         }
 
         input[type="date"],
@@ -167,19 +166,19 @@
       }
 
       > tr[title~="items"] {
-        background: theme.$layer-01;
+        background: $layer-01;
 
         &:has(button:focus) {
-          box-shadow: inset 0 0 0 2px theme.$focus !important;
-          background: theme.$layer-01;
+          box-shadow: inset 0 0 0 2px $focus !important;
+          background: $layer-01;
         }
 
         > td {
           background-color: transparent !important;
-          color: theme.$text-primary !important;
+          color: $text-primary !important;
 
           > span > svg {
-            color: theme.$icon-primary !important;
+            color: $icon-primary !important;
           }
 
           > button:focus {
@@ -191,8 +190,8 @@
   }
 
   .docblock-source {
-    background-color: theme.$background !important;
+    background-color: $background !important;
     border-radius: 0 !important;
-    border: 1px solid theme.$border-subtle-01 !important;
+    border: 1px solid $border-subtle-01 !important;
   }
 }

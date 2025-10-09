@@ -1,13 +1,13 @@
-@use "@carbon/styles/scss/theme";
-@use "@carbon/styles/scss/components/button/tokens";
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/components/button/tokens" as button-tokens;
 
 * {
   scrollbar-width: thin !important;
-  scrollbar-color: theme.$border-inverse theme.$border-subtle-01 !important;
+  scrollbar-color: $border-inverse $border-subtle-01 !important;
 }
 
 body {
-  color: theme.$text-secondary !important;
+  color: $text-secondary !important;
 }
 
 ::selection {
@@ -19,16 +19,16 @@ body {
 }
 
 #root > div > div {
-  border-color: theme.$border-subtle-01 !important;
+  border-color: $border-subtle-01 !important;
 
   > div:first-child::after {
-    background-color: theme.$border-interactive !important;
+    background-color: $border-interactive !important;
   }
 }
 
 #storybook-preview-wrapper a[title="Skip to sidebar"]:focus {
-  background-color: tokens.$button-secondary !important;
+  background-color: button-tokens.$button-secondary !important;
   border-radius: 0px !important;
-  color: theme.$text-on-color !important;
-  box-shadow: theme.$focus 0px 0px 0px 2px inset !important;
+  color: $text-on-color !important;
+  box-shadow: $focus 0px 0px 0px 2px inset !important;
 }
