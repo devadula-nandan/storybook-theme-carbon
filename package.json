@@ -53,7 +53,7 @@
     "@storybook/icons": "^1.6.0"
   },
   "devDependencies": {
-    "@carbon/themes": "^11.61.0",
+    "@carbon/styles": "^1.92.0",
     "@storybook/addon-a11y": "^9.1.10",
     "@storybook/addon-docs": "^9.1.0",
     "@storybook/react-vite": "^9.1.0",
