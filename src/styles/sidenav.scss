@@ -1,3 +1,159 @@
-.sidebar-container {
+@use "@carbon/layout" as *;
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/components/button/tokens" as button-tokens;
 
+nav.sidebar-container {
+  background-color: $layer-01;
+
+      svg > path {
+      fill: $text-secondary;
+    }
+
+  .sidebar-header {
+    button {
+      min-block-size: $spacing-07;
+      min-inline-size: $spacing-07;
+      border-radius: 0;
+      background-color: transparent;
+      color: $text-primary !important;
+      &::after, &::before{
+        box-shadow: none;
+      }
+
+      &:hover {
+        background-color: $background-hover !important;
+      }
+
+      &:active {
+        background-color: $background-active !important;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 0 2px $focus !important;
+      }
+    }
+  }
+
+  .search-result-recentlyOpened{
+    *{
+      color:$text-secondary;
+    }
+  }
+
+  [role="combobox"].search-field {
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 $border-strong-01;
+    background-color: $layer-02;
+    padding: 0;
+
+    *, ::placeholder{
+      color: $text-secondary;
+    }
+    &:has(input:focus) {
+      box-shadow: inset 0 0 0 2px $focus;
+    }
+
+    button {
+      min-block-size: $spacing-07;
+      min-inline-size: $spacing-07;
+      border-radius: 0;
+      background-color: transparent;
+      color: $text-primary !important;
+
+      &:hover {
+        background-color: $layer-hover-02 !important;
+      }
+
+      &:active {
+        background-color: $layer-active-02 !important;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 0 2px $focus !important;
+      }
+    }
+
+    :last-child {
+      gap: 0;
+    }
+
+    + div {
+      button {
+        min-block-size: $spacing-07;
+        min-inline-size: $spacing-07;
+        box-shadow: none;
+        border-radius: 0;
+        background-color: $layer-02;
+        color: $text-primary !important;
+
+        &:hover {
+          background-color: $layer-hover-02 !important;
+        }
+
+        &:active {
+          background-color: $layer-active-02 !important;
+        }
+
+        &:focus {
+          box-shadow: inset 0 0 0 2px $focus !important;
+        }
+      }
+    }
+  }
+
+  .sidebar-subheading {
+    color: $text-secondary;
+
+    button {
+      min-block-size: $spacing-07;
+      min-inline-size: $spacing-07;
+      border-radius: 0;
+      background-color: transparent;
+      color: $text-primary !important;
+
+      &:hover {
+        background-color: $background-hover !important;
+      }
+
+      &:active {
+        background-color: $background-active !important;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 0 2px $focus !important;
+      }
+    }
+  }
+
+  .sidebar-item {
+    --tree-node-background-hover: var(--cds-layer-hover-02) !important;
+    border-radius: 0;
+    a{
+      color: $text-secondary !important;
+    }
+
+    &:has([aria-expanded]){
+      background-color: $layer-02;
+    }
+
+    &[data-selected="true"] {
+      background-color: $background-selected;
+      box-shadow: inset $spacing-02 0 0 0 $border-interactive;
+      &:hover {
+        background-color: $layer-hover-02;
+      }
+      svg {
+    color: $text-secondary !important;
+}
+    }
+    &:focus {
+      box-shadow: inset 0 0 0 2px $focus !important;
+    }
+    &:hover {
+      background-color: $layer-hover-02;
+    }
+    &:active {
+      background-color: $layer-active-02;
+    }
+  }
 }

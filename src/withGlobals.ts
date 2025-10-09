@@ -21,7 +21,7 @@ export const withGlobals = (
   useEffect(() => {
 
     // set theme on iframe
-    document.documentElement.setAttribute("storybook-carbon-theme", carbonTheme);
+    document?.documentElement.setAttribute("storybook-carbon-theme", carbonTheme);
 
     // need to be handled by storybook setups remove for production builds. only for testing.
     // let backgroundColors = {

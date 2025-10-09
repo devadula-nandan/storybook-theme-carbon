@@ -2,7 +2,6 @@
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
 
 * {
-  scrollbar-width: thin !important;
   scrollbar-color: $border-inverse $border-subtle-01 !important;
 }
 
@@ -31,4 +30,30 @@ body {
   border-radius: 0px;
   color: $text-on-color;
   box-shadow: $focus 0px 0px 0px 2px inset;
+}
+
+[data-popper-interactive] {
+  border-radius: 0 !important;
+  
+
+  > div {
+    background-color: $layer-01;
+    border-radius: 0 !important;
+    color: $text-secondary !important;
+  }
+  svg > path {
+    fill: $text-primary;
+  }
+  button {
+    border-radius: 0;
+    span {
+      color: $text-primary !important;
+    }
+    &:hover {
+      background: $layer-hover-01;
+    }
+    &:active {
+      background: $layer-active-01;
+    }
+  }
 }
