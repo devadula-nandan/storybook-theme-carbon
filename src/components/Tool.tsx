@@ -7,6 +7,7 @@ import {
   WithTooltip,
 } from "storybook/internal/components";
 import { ADDON_ID, THEME_KEY, THEMES } from "../constants";
+import "../styles/theme-base.scss";
 import "../styles/toolbar.scss";
 import "../styles/sidenav.scss";
 import "../styles/panel.scss";

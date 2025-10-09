@@ -1,0 +1,22 @@
+@use '@carbon/styles/scss/theme' as *;
+@use '@carbon/styles/scss/themes';
+
+:root {
+  @include theme(themes.$white);
+}
+
+:root[storybook-carbon-theme='white'] {
+  @include theme(themes.$white);
+}
+
+:root[storybook-carbon-theme='g10'] {
+  @include theme(themes.$g10);
+}
+
+:root[storybook-carbon-theme='g90'] {
+  @include theme(themes.$g90);
+}
+
+:root[storybook-carbon-theme='g100'] {
+  @include theme(themes.$g100);
+}
