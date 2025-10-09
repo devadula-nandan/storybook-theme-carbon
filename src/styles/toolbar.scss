@@ -1,4 +1,4 @@
-@use "@carbon/layout";
+@use "@carbon/layout" as *;
 @use "@carbon/styles/scss/theme" as *;
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
 
@@ -9,30 +9,30 @@
 
   div {
     margin: 0 !important;
-    width: unset !important;
+    width: unset;
 
     [title="Viewport width"],
     [title="Viewport height"] {
-      color: $text-secondary !important;
+      color: $text-secondary;
     }
   }
 
   :has(> button),
   :has(> a) {
-    gap: 0 !important;
+    gap: 0;
 
     button + span:not(.addon-collapsible-icon):has(+ button) {
-      background: $border-subtle-01 !important;
-      margin: 0 !important;
-      block-size: 100% !important;
+      background-color: $border-subtle-01;
+      margin: 0;
+      block-size: 100%;
     }
 
-    button:not(.tabbutton),
+    button:not([role="tab"]),
     a {
-      min-block-size: layout.$spacing-08 !important;
-      min-inline-size: layout.$spacing-08 !important;
-      border-radius: 0 !important;
-      background: transparent !important;
+      min-block-size: $spacing-08;
+      min-inline-size: $spacing-08;
+      border-radius: 0;
+      background-color: transparent;
       color: $text-primary !important;
 
       &:hover {
@@ -49,55 +49,55 @@
     }
   }
 
-  button.css-n2j2tx:not(.tabbutton) {
-    background-color: $background-selected !important;
+  button.css-n2j2tx:not([role="tab"]) {
+    background-color: $background-selected;
   }
 
-  button.tabbutton {
-    min-block-size: layout.$spacing-08 !important;
-    min-inline-size: layout.$spacing-08 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    color: $text-primary !important;
-    font-weight: unset !important;
+  button[role="tab"] {
+    min-block-size: $spacing-08;
+    min-inline-size: $spacing-08;
+    border-radius: 0;
+    background-color: transparent;
+    color: $text-primary;
+    font-weight: unset;
 
     > div > div {
-      box-shadow: none !important;
-      color: $text-on-color !important;
-      background-color: button-tokens.$button-secondary !important;
+      box-shadow: none;
+      color: $text-on-color;
+      background-color: button-tokens.$button-secondary;
     }
 
     .addon-collapsible-icon {
-      color: $text-primary !important;
-      border-right: 4px solid transparent !important;
-      border-left: 4px solid transparent !important;
-      border-top: 6px solid !important;
+      color: $text-primary;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+      border-top: 6px solid;
     }
 
     &:hover {
-      background-color: $background-hover !important;
+      background-color: $background-hover;
     }
 
     &:active {
-      background-color: $background-active !important;
+      background-color: $background-active;
     }
 
     &:focus {
-      outline: 2px solid $focus !important;
-      outline-offset: -2px !important;
-      border-width: 2px 0 !important;
-      border-color: unset !important;
+      outline: 2px solid $focus;
+      outline-offset: -2px;
+      border-width: 2px 0;
+      border-color: unset;
     }
   }
 
   button.tabbutton-active {
-    border-width: 2px 0 !important;
-    border-color: transparent transparent $border-interactive !important;
-    font-weight: bold !important;
+    border-width: 2px 0;
+    border-color: transparent transparent $border-interactive;
+    font-weight: bold;
 
     > div > div {
-      color: $text-on-color !important;
-      background-color: $icon-interactive !important;
+      color: $text-on-color;
+      background-color: $border-interactive;
     }
   }
 }
