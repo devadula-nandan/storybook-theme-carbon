@@ -53,7 +53,7 @@ export default defineConfig(async (options) => {
     clean: false,
     esbuildPlugins: [
       sassPlugin({
-        type: "css-text",
+        type: "style",
       }),
     ],
   };
