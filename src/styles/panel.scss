@@ -253,7 +253,9 @@
 
         &:not([disabled]) {
           @include button-states;
-          @include focus-state;
+          &:focus{
+            @include focus-state;
+          }
         }
       }
     }
@@ -265,6 +267,9 @@
     div[aria-label="Interactions list"] {
       div:has(> button[aria-label="Interaction step"]) {
         @include button-states;
+      }
+      > div {
+        border-color: $border-subtle-01 !important;
       }
     }
   }

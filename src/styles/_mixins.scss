@@ -155,15 +155,16 @@
 /**
  * Badge/Tag Styling
  * For count indicators and tags
- * @param {boolean} $interactive - Whether the badge is on an interactive element
+ * @param {boolean} $active - Whether the badge is on an active element
  */
-@mixin badge($interactive: false) {
+@mixin badge($active: false) {
   box-shadow: none;
-  color: $text-on-color;
 
-  @if $interactive {
+  @if $active {
     background-color: $border-interactive;
+    color: $text-on-color;
   } @else {
-    background-color: var(--cds-button-secondary);
+    background-color: $border-subtle;
+    color: $text-secondary;
   }
 }

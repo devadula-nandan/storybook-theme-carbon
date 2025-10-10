@@ -56,7 +56,7 @@
      */
     button:not([role="tab"]),
     a {
-      @include button-size('large');
+      @include button-size("large");
       @include button-complete;
     }
   }
@@ -67,6 +67,10 @@
    */
   button.css-n2j2tx:not([role="tab"]) {
     background-color: $background-selected;
+  }
+
+  .css-s1bs4u {
+    @include tab-active;
   }
 
   /**
