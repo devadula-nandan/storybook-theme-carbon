@@ -1,0 +1,433 @@
+@use "@carbon/layout" as *;
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/components/button/tokens" as button-tokens;
+@use "mixins" as *;
+@use "panel-shared" as *;
+
+/**
+ * PANEL STYLES
+ * Main styles for the Storybook panel area (bottom/right panel)
+ * Includes Controls, Actions, Interactions, and A11y addons
+ */
+
+#panel-tab-content {
+  height: calc(100% - 41px) !important;
+  margin-top: 1px !important;
+  background: $background !important;
+
+  /**
+   * Loading State Backgrounds
+   * Inherit background for loading screens
+   */
+  .css-y6sd6u,
+  .css-1400aiw,
+  > div {
+    background-color: inherit;
+
+    > div {
+      background-color: inherit;
+    }
+  }
+
+  /**
+   * Paragraph Text Color
+   */
+  p {
+    color: $text-secondary;
+  }
+
+  /**
+   * Scrollbar Styling
+   * Custom scrollbar for Radix UI scroll areas
+   */
+  [data-radix-scroll-area-viewport] {
+    + div > div {
+      background: $border-inverse;
+    }
+  }
+
+  /**
+   * ==========================================================
+   * CONTROLS ADDON
+   * ==========================================================
+   */
+
+  /**
+   * Save From Controls Action
+   * Toolbar action to save control state
+   */
+  [id="save-from-controls"] {
+    > div {
+      /**
+       * Custom CSS variable for highlight color
+       * Blends interactive border with layer background
+       */
+      --highlight-bg-color: color-mix(
+        in srgb,
+        var(--cds-border-interactive) 30%,
+        var(--cds-layer-01)
+      );
+
+      background-color: $layer-01;
+      border-color: $border-subtle-01;
+      color: $text-secondary;
+
+      button {
+        @include panel-button;
+      }
+    }
+  }
+
+  /**
+   * Reset Controls Button
+   * Button to reset all controls to default values
+   */
+  button[title="Reset controls"] {
+    @include panel-button;
+  }
+
+  /**
+   * Controls ArgTable
+   * Table showing component props/args with editable controls
+   */
+  table.docblock-argstable {
+    /**
+     * Table Header
+     * Column titles (Name, Description, Type, etc.)
+     */
+    > thead.docblock-argstable-head > tr > th > span {
+      color: $text-primary;
+    }
+
+    /**
+     * Table Body
+     * Rows containing control inputs
+     */
+    > tbody.docblock-argstable-body {
+      /**
+       * Standard Control Rows
+       * Individual prop/arg rows with controls
+       */
+      > tr:not([title]) > td {
+        background: $background;
+        border-color: $border-subtle-01;
+
+        /**
+         * Type Badges
+         * Display type information (string, number, etc.)
+         */
+        .css-mkjjps,
+        .css-o1d7ko {
+          background: $layer-01;
+          border: 1px solid $border-subtle-01;
+          border-radius: 0;
+          color: $text-secondary;
+        }
+
+        /**
+         * Required Indicator
+         * Shows which props are required
+         */
+        span[title="Required"] {
+          color: $support-error;
+        }
+
+        /**
+         * Form Controls
+         * All input types within the controls table
+         */
+        @include form-controls;
+
+        /**
+         * Radio Button Styling
+         */
+        input[type="radio"] {
+          @include radio-button;
+        }
+
+        /**
+         * Toggle Switch Styling
+         */
+        @include toggle-switch;
+
+        /**
+         * Date/Time Inputs
+         */
+        @include date-time-inputs;
+      }
+
+      /**
+       * Array/Object Item Rows
+       * Expandable rows for complex control types
+       */
+      > tr[title~="items"] {
+        background: $layer-01 !important;
+        box-shadow: inset 0 1px 0 0 $border-subtle-01;
+
+        /**
+         * Focus state for entire row
+         */
+        &:has(button:focus) {
+          box-shadow: inset 0 0 0 2px $focus !important;
+          background: $layer-01 !important;
+        }
+
+        > td {
+          background-color: transparent !important;
+          border: none;
+          color: $text-primary;
+
+          > span > svg {
+            color: $icon-primary;
+          }
+
+          > button:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Code Source Block
+   * Syntax-highlighted code examples in docs
+   */
+  .docblock-source {
+    background-color: $background;
+    border-radius: 0;
+    border: 1px solid $border-subtle-01;
+  }
+
+  /**
+   * ==========================================================
+   * INTERACTIONS ADDON
+   * ==========================================================
+   * Panel for play function interactions and testing
+   */
+  /**
+   * Interactions Panel Container
+   */
+  div:has(nav[aria-label="Component tests toolbar"]) {
+    background-color: var(--cds-background);
+
+    /**
+     * Interactions Toolbar
+     * Controls for play function testing (play, rewind, etc.)
+     */
+    nav[aria-label="Component tests toolbar"] {
+      box-sizing: content-box;
+      border-bottom: 1px solid $border-subtle-01;
+      padding: 0;
+      background: $layer-01;
+
+      > div > p {
+        color: $text-primary;
+      }
+
+      /**
+       * Test Status Badge
+       * Shows pass/fail/running status
+       */
+      div[aria-label="Status of the test run"] {
+        min-block-size: $spacing-08;
+        min-inline-size: $spacing-10;
+        border-radius: 0;
+        align-content: center;
+      }
+
+      /**
+       * Hide empty spans
+       */
+      span:empty {
+        display: none;
+      }
+
+      /**
+       * Toolbar Buttons
+       */
+      button {
+        @include button-size('large');
+        @include button-reset;
+        margin: 0;
+
+        &:not([disabled]) {
+          @include button-states;
+          &:focus{
+            @include focus-state;
+          }
+        }
+      }
+    }
+
+    /**
+     * Interactions List
+     * List of interaction steps from play function
+     */
+    div[aria-label="Interactions list"] {
+      div:has(> button[aria-label="Interaction step"]) {
+        @include button-states;
+      }
+      > div {
+        border-color: $border-subtle-01 !important;
+      }
+    }
+  }
+  /**
+   * ==========================================================
+   * ACCESSIBILITY (A11Y) ADDON
+   * ==========================================================
+   * Panel for accessibility violation detection
+   */
+
+  /**
+   * A11y Tabs Container
+   * Violations, Passes, Incomplete tabs
+   */
+  div:has(> div > [data-type="violations"]) {
+    background-color: $layer-01;
+    padding: 0;
+    border-block-end: 1px solid $border-subtle-01;
+    box-shadow: none;
+
+    div[role="tablist"] + div {
+      gap: 0;
+    }
+
+    /**
+     * Non-Tab Buttons in A11y Header
+     * Settings and other action buttons
+     */
+    button:not([role="tab"]) {
+      @include button-size('large');
+      @include button-complete;
+    }
+
+    /**
+     * A11y Tab Buttons
+     * Violations, Passes, Incomplete tabs
+     */
+    button[role="tab"] {
+      @include tab-button;
+
+      /**
+       * Violation Count Badge
+       */
+      > div > div {
+        @include badge;
+      }
+    }
+
+    /**
+     * Active Tab State
+     */
+    button[data-active="true"] {
+      @include tab-active;
+
+      > div > div {
+        @include badge(true);
+      }
+    }
+  }
+
+  /**
+   * A11y Violation List
+   * List of accessibility issues and their details
+   */
+  div:has(> div > [data-type="violations"]) + div {
+    /**
+     * Individual Violation Items
+     * Clickable rows showing violation summary
+     */
+    [data-active] {
+      background-color: $layer-01;
+
+      &:hover {
+        color: $interactive;
+        background-color: $layer-hover-01;
+
+        + div {
+          background-color: $layer-hover-01;
+        }
+      }
+
+      > div:first-child {
+        > div:last-child {
+          color: $text-secondary;
+        }
+      }
+
+      > :nth-last-child(2) {
+        color: $text-secondary;
+      }
+
+      /**
+       * Action Buttons in Violation Row
+       * Highlight, copy, etc.
+       */
+      > button {
+        @include panel-button;
+      }
+    }
+
+    /**
+     * Violation Details Panel
+     * Expanded view showing full violation information
+     */
+    [data-active] + [id*="details"] {
+      background-color: $layer-01;
+
+      /**
+       * Help Links
+       * External links to WCAG guidelines
+       */
+      p > a > span {
+        color: $link-primary;
+
+        > svg {
+          margin-bottom: -1px;
+
+          > path {
+            fill: $link-primary;
+          }
+        }
+      }
+
+      > div:first-child {
+        > div:first-child {
+          color: $text-secondary;
+        }
+      }
+
+      /**
+       * Detail Tabs (HTML, Highlight)
+       * Additional information tabs within violation details
+       */
+      [role="tablist"],
+      [role="tabpanel"] {
+        button {
+          border-radius: 0;
+          color: $text-secondary;
+          background-color: $layer-02;
+          box-shadow: inset 0 0 0 1px $border-subtle-01;
+
+          @include button-states('layer-02');
+
+          &:focus {
+            @include focus-state;
+          }
+        }
+      }
+    }
+
+    /**
+     * Scroll Area Content
+     */
+    [data-radix-scroll-area-content] {
+      > div {
+        background-color: inherit;
+        border-color: $border-subtle-01;
+      }
+    }
+  }
+}

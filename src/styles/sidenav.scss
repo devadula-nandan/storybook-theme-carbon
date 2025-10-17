@@ -1,0 +1,174 @@
+@use "@carbon/layout" as *;
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/components/button/tokens" as button-tokens;
+@use "mixins" as *;
+
+/**
+ * SIDEBAR/NAVIGATION STYLES
+ * Styles for the Storybook sidebar navigation panel
+ * Includes header, search, tree navigation, and interactive elements
+ */
+
+nav.sidebar-container {
+  background-color: $layer-01;
+
+  /**
+   * SVG Icon Colors
+   * Default fill color for sidebar icons
+   */
+  svg > path {
+    fill: $text-secondary;
+  }
+
+  /**
+   * Sidebar Header
+   * Top section with logo and action buttons
+   */
+  .sidebar-header {
+    button {
+      @include button-size('medium');
+      @include button-complete;
+
+      /**
+       * Remove pseudo-element shadows
+       * Clears unwanted default styling
+       */
+      &::after,
+      &::before {
+        box-shadow: none;
+      }
+    }
+  }
+
+  /**
+   * Recently Opened Search Results
+   * Text color for recent items in search dropdown
+   */
+  .search-result-recentlyOpened {
+    * {
+      color: $text-secondary;
+    }
+  }
+
+  /**
+   * Search Field
+   * Combobox input for filtering stories
+   */
+  [role="combobox"].search-field {
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 $border-strong-01;
+    background-color: $layer-02;
+    padding: 0;
+
+    /**
+     * Search Text & Placeholder
+     * Color for input text and placeholder
+     */
+    *,
+    ::placeholder {
+      color: $text-secondary;
+    }
+
+    /**
+     * Focus State for Search Input
+     * Shows focus when typing in search field
+     */
+    &:has(input:focus) {
+      @include focus-state;
+    }
+
+    /**
+     * Search Field Buttons
+     * Clear button and other search controls
+     */
+    button {
+      @include button-size('medium');
+      @include button-complete(true, 'layer-02');
+    }
+
+    /**
+     * Remove gap from last child
+     * Layout adjustment for search controls
+     */
+    :last-child {
+      gap: 0;
+    }
+
+    /**
+     * Search Suggestions/Results Buttons
+     * Interactive elements in search dropdown
+     */
+    + div {
+      button {
+        @include button-size('medium');
+        @include button-complete(true, 'layer-02');
+        box-shadow: none;
+      }
+    }
+  }
+
+  /**
+   * Sidebar Subheadings
+   * Category headers in the navigation tree
+   */
+  .sidebar-subheading {
+    color: $text-secondary;
+
+    button {
+      @include button-size('medium');
+      @include button-complete;
+    }
+  }
+
+  /**
+   * Sidebar Navigation Items
+   * Individual story/folder items in the tree
+   */
+  .sidebar-item {
+    --tree-node-background-hover: var(--cds-layer-hover-02) !important;
+    border-radius: 0;
+
+    /**
+     * Navigation Links
+     * Story title links
+     */
+    a {
+      color: $text-secondary !important;
+    }
+
+    /**
+     * Expandable Items
+     * Folders that can be expanded/collapsed
+     */
+    &:has([aria-expanded]) {
+      background-color: $layer-02;
+    }
+
+    /**
+     * Selected/Active Item
+     * Currently viewed story with left border indicator
+     */
+    &[data-selected="true"] {
+      background-color: $background-selected;
+      box-shadow: inset $spacing-02 0 0 0 $border-interactive;
+
+      &:hover {
+        background-color: $layer-hover-02;
+      }
+
+      svg {
+        color: $text-secondary !important;
+      }
+    }
+
+    /**
+     * Interactive States
+     * Hover, active, and focus states for navigation items
+     */
+    &:focus {
+      @include focus-state;
+    }
+
+    @include button-states('layer-02');
+  }
+}

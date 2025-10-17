@@ -1,0 +1,170 @@
+@use "@carbon/layout" as *;
+@use "@carbon/styles/scss/theme" as *;
+
+/**
+ * Button Reset Mixin
+ * Provides consistent button styling across all Carbon-themed components
+ * @param {boolean} $include-focus - Whether to include focus styles (default: true)
+ */
+@mixin button-reset($include-focus: true) {
+  border-radius: 0;
+  background-color: transparent;
+  color: $text-primary !important;
+  box-shadow: none;
+
+  @if $include-focus {
+    &:focus {
+      box-shadow: inset 0 0 0 2px $focus !important;
+    }
+  }
+}
+
+/**
+ * Button Interactive States
+ * Applies hover and active states using Carbon theme tokens
+ * @param {string} $layer - Layer level for the component (default: 'background')
+ */
+@mixin button-states($layer: 'background') {
+  &:hover {
+    @if $layer == 'layer-01' {
+      background-color: $layer-hover-01 !important;
+    } @else if $layer == 'layer-02' {
+      background-color: $layer-hover-02 !important;
+    } @else {
+      background-color: $background-hover !important;
+    }
+  }
+
+  &:active {
+    @if $layer == 'layer-01' {
+      background-color: $layer-active-01 !important;
+    } @else if $layer == 'layer-02' {
+      background-color: $layer-active-02 !important;
+    } @else {
+      background-color: $background-active !important;
+    }
+  }
+}
+
+/**
+ * Complete Button Styling
+ * Combines reset and interactive states for buttons
+ * @param {boolean} $include-focus - Include focus styles
+ * @param {string} $layer - Layer level for interactive states
+ */
+@mixin button-complete($include-focus: true, $layer: 'background') {
+  @include button-reset($include-focus);
+  @include button-states($layer);
+}
+
+/**
+ * Button Sizing
+ * Applies consistent minimum dimensions using Carbon spacing tokens
+ * @param {string} $size - Size level (small: 06, medium: 07, large: 08, xlarge: 10)
+ */
+@mixin button-size($size: 'medium') {
+  @if $size == 'small' {
+    min-block-size: $spacing-06;
+    min-inline-size: $spacing-06;
+  } @else if $size == 'medium' {
+    min-block-size: $spacing-07;
+    min-inline-size: $spacing-07;
+  } @else if $size == 'large' {
+    min-block-size: $spacing-08;
+    min-inline-size: $spacing-08;
+  } @else if $size == 'xlarge' {
+    min-block-size: $spacing-10;
+    min-inline-size: $spacing-10;
+  }
+}
+
+/**
+ * Input Field Styling
+ * Provides consistent styling for input elements (text, textarea, select)
+ * @param {string} $layer - Layer level for the input background
+ */
+@mixin input-field($layer: 'layer-01') {
+  border-radius: 0;
+  box-shadow: none;
+
+  @if $layer == 'layer-02' {
+    background-color: $layer-02;
+  } @else {
+    background-color: $layer-01;
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  @include button-states($layer);
+
+  &:focus {
+    box-shadow: inset 0 0 0 2px $focus;
+  }
+}
+
+/**
+ * Border Bottom Input
+ * Adds bottom border for text inputs following Carbon design pattern
+ */
+@mixin input-border-bottom {
+  box-shadow: inset 0 -1px 0 $border-strong-01;
+}
+
+/**
+ * Focus State
+ * Applies consistent focus styling across components
+ * @param {string} $type - Type of focus (inset, outline)
+ */
+@mixin focus-state($type: 'inset') {
+  @if $type == 'outline' {
+    outline: 2px solid $focus;
+    outline-offset: -2px;
+  } @else {
+    box-shadow: inset 0 0 0 2px $focus !important;
+  }
+}
+
+/**
+ * Tab Button Styling
+ * Consistent styling for tab buttons with active state indicator
+ */
+@mixin tab-button {
+  @include button-size('large');
+  @include button-complete(false);
+  font-weight: unset;
+
+  &:focus {
+    @include focus-state('outline');
+    border-width: 2px 0;
+    border-color: unset;
+  }
+}
+
+/**
+ * Active Tab Indicator
+ * Applies bottom border to indicate active tab state
+ */
+@mixin tab-active {
+  border-width: 2px 0;
+  border-color: transparent transparent $border-interactive;
+  font-weight: bold;
+}
+
+/**
+ * Badge/Tag Styling
+ * For count indicators and tags
+ * @param {boolean} $active - Whether the badge is on an active element
+ */
+@mixin badge($active: false) {
+  box-shadow: none;
+
+  @if $active {
+    background-color: $border-interactive;
+    color: $text-on-color;
+  } @else {
+    background-color: $border-subtle;
+    color: $text-secondary;
+  }
+}

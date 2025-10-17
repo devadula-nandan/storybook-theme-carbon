@@ -1,0 +1,118 @@
+@use "@carbon/layout" as *;
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/components/button/tokens" as button-tokens;
+@use "mixins" as *;
+
+/**
+ * TOOLBAR STYLES
+ * Styles for the Storybook toolbar component (.sb-bar)
+ * Includes buttons, tabs, and viewport controls
+ */
+
+.sb-bar {
+  background-color: $layer-01 !important;
+  border-bottom: 1px solid $border-subtle-01;
+  box-shadow: none !important;
+
+  /**
+   * Container Adjustments
+   * Removes default margins and width constraints
+   */
+  div {
+    margin: 0 !important;
+    width: unset;
+
+    /**
+     * Viewport Width/Height Labels
+     * Text color for responsive viewport controls
+     */
+    [title="Viewport width"],
+    [title="Viewport height"] {
+      color: $text-secondary;
+    }
+  }
+
+  /**
+   * Button & Link Containers
+   * Groups of interactive toolbar elements
+   */
+  :has(> button),
+  :has(> a) {
+    gap: 0;
+
+    /**
+     * Button Separators
+     * Visual dividers between toolbar buttons
+     */
+    button + span:not(.addon-collapsible-icon):has(+ button) {
+      background-color: $border-subtle-01;
+      margin: 0;
+      block-size: 100%;
+    }
+
+    /**
+     * Standard Toolbar Buttons & Links
+     * Excludes tab buttons which have separate styling
+     */
+    button:not([role="tab"]),
+    a {
+      @include button-size("large");
+      @include button-complete;
+    }
+  }
+
+  /**
+   * Selected/Active Non-Tab Button
+   * Indicates active state for toggle buttons
+   */
+  button.css-n2j2tx:not([role="tab"]) {
+    background-color: $background-selected;
+  }
+
+  .css-s1bs4u {
+    @include tab-active;
+  }
+
+  /**
+   * Tab Buttons
+   * Navigation tabs in the toolbar (e.g., Addons, Controls)
+   */
+  button[role="tab"] {
+    @include tab-button;
+
+    /**
+     * Badge/Counter on Tabs
+     * Shows notification count or status
+     */
+    > div > div {
+      @include badge;
+    }
+
+    /**
+     * Collapsible Tab Indicator
+     * Dropdown arrow for expandable tabs
+     */
+    .addon-collapsible-icon {
+      color: $text-primary;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+      border-top: 6px solid;
+    }
+  }
+
+  /**
+   * Active Tab State
+   * Visual indicator for currently selected tab
+   */
+  button.tabbutton-active {
+    @include tab-active;
+
+    /**
+     * Active Tab Badge
+     * Badge styling for active tab state
+     */
+    > div > div {
+      @include badge(true);
+    }
+  }
+}
