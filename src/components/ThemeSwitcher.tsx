@@ -6,12 +6,16 @@ import {
   TooltipLinkList,
   WithTooltip,
 } from "storybook/internal/components";
-import { ADDON_ID, THEME_KEY, THEMES } from "../constants";
-import "../styles/theme-base.scss";
-import "../styles/toolbar.scss";
-import "../styles/sidenav.scss";
-import "../styles/panel.scss";
-import "../styles/common.scss";
+import {
+  ADDON_ID,
+  STORYBOOK_CARBON_THEME,
+  CARBONIZED_STORYBOOK,
+  THEMES,
+} from "../constants";
+import {
+  loadManagerStyles,
+  unloadManagerStyles,
+} from "../utils/managerStylesLoader";
 
 const ThemeIcon = () => (
   <svg
@@ -30,8 +34,14 @@ const ThemeIcon = () => (
   </svg>
 );
 
+/** Utility to detect if theme is enabled */
+const getInitialThemeEnabled = (): boolean => {
+  const stored = localStorage.getItem("carbonize-storybook");
+  return stored !== null ? stored === "true" : true; // Default to enabled
+};
+
 /** Utility to detect preferred theme or local saved theme */
-const getInitialCarbonTheme = (): string => {
+const getInitialStorybookCarbonTheme = (): string => {
   let storedTheme = localStorage.getItem("storybook-carbon-theme");
 
   if (!storedTheme) {
@@ -60,20 +70,41 @@ const applyTheme = (themeValue: string) => {
 };
 
 // Initialize theme on load
-const initialTheme = getInitialCarbonTheme();
-applyTheme(initialTheme);
+const initialTheme = getInitialStorybookCarbonTheme();
+const initialEnabled = getInitialThemeEnabled();
+if (initialEnabled) {
+  loadManagerStyles();
+  applyTheme(initialTheme);
+}
 
-export const Tool = memo(function ThemeSelector({ api }: { api: API }) {
+export const ThemeSwitcher = memo(function ThemeSwitcher({
+  api,
+}: {
+  api: API;
+}) {
   const [globals, updateGlobals] = useGlobals();
-  const selectedTheme = globals[THEME_KEY];
+  const selectedTheme = globals[STORYBOOK_CARBON_THEME];
+  const themeEnabled = globals[CARBONIZED_STORYBOOK] ?? initialEnabled;
 
   const handleSelectTheme = useCallback(
     (themeValue: string) => {
-      updateGlobals({ [THEME_KEY]: themeValue });
-      applyTheme(themeValue);
+      updateGlobals({ [STORYBOOK_CARBON_THEME]: themeValue });
+      if (themeEnabled) {
+        applyTheme(themeValue);
+      }
     },
-    [updateGlobals],
+    [updateGlobals, themeEnabled],
   );
+
+  // Listen for theme enabled changes from the panel
+  useEffect(() => {
+    if (themeEnabled) {
+      loadManagerStyles();
+      if (selectedTheme) {
+        applyTheme(selectedTheme);
+      }
+    }
+  }, [themeEnabled, selectedTheme]);
 
   return (
     <WithTooltip
@@ -94,7 +125,7 @@ export const Tool = memo(function ThemeSelector({ api }: { api: API }) {
         />
       )}
     >
-      <IconButton title="Theme">
+      <IconButton title="Carbon Theme" active={themeEnabled}>
         <ThemeIcon />
       </IconButton>
     </WithTooltip>

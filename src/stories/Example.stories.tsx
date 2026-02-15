@@ -1,42 +1,84 @@
+import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button } from "./Button";
-import { expect, fn } from "storybook/test";
+import { expect, within } from "storybook/test";
+import { colorCustomProperties } from "./story-helper";
 
-const meta: Meta<typeof Button> = {
-  title: "Example/Button",
-  component: Button,
-  play: async ({ canvas, userEvent, args }) => {
-    const button = canvas.getByRole("button");
-    await userEvent.click(button);
+interface ColorTokenArgs {
+  colorToken: string;
+}
 
-    expect(button).toBeInTheDocument();
-    if (args.onClick) {
-      expect(args.onClick).toHaveBeenCalled();
-    }
-  },
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
-  args: {
-    onClick: fn(),
-  },
+interface DummyControlsArgs {
+  booleanControl: boolean;
+  numberControl: number;
+  rangeControl: number;
+  colorControl: string;
+  textControl: string;
+  selectControl: string;
+  radioControl: string;
+  inlineRadioControl: string;
+  checkControl: string[];
+  inlineCheckControl: string[];
+  dateControl: Date;
+  fileControl: string[];
+}
+
+const meta: Meta = {
+  title: "Example/Demo",
   tags: ["autodocs"],
-  parameters: {
-    myAddonParameter: `
-<MyComponent boolProp scalarProp={1} complexProp={{ foo: 1, bar: '2' }}>
-  <SomeOtherComponent funcProp={(a) => a.id} />
-</MyComponent>
-`,
-  },
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj;
 
-export const Default: Story = {
+/**
+ * COLOR TOKEN
+ * A simple div showing the background color of Carbon Design System color tokens
+ */
+export const ColorToken: StoryObj<ColorTokenArgs> = {
+  argTypes: {
+    colorToken: {
+      control: { type: "select" },
+      options: colorCustomProperties,
+      description: "Select a Carbon Design System color token",
+      table: { category: "Color Tokens" },
+    },
+  },
   args: {
-    primary: true,
-    label: "Button",
+    colorToken: "--cds-layer-01",
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    // Check that the selected color token is rendered in the paragraph
+    const tokenText = await canvas.findByText(args.colorToken);
+    await expect(tokenText).toBeInTheDocument();
+  },
+  render: (args) => {
+    return (
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "50vh",
+          height: "50vh",
+          backgroundColor: `var(${args.colorToken})`,
+          // border: "1px solid var(--cds-background-inverse",
+        }}
+      >
+        <p
+          style={{
+            background: "var(--cds-background-inverse)",
+            color: "var(--cds-background)",
+            fontFamily: "IBM Plex Sans",
+            fontSize: "14px",
+            // display: "inline-block",
+            paddingInline: "0.4rem",
+            margin: "0",
+          }}
+        >
+          {args.colorToken}
+        </p>
+      </div>
+    );
   },
 };
 
@@ -44,14 +86,8 @@ export const Default: Story = {
  * DUMMY CONTROLS
  * A story showcasing every Storybook control type available.
  */
-export const DummyControls = {
-  name: "Dummy Controls",
+export const DummyControls: StoryObj<DummyControlsArgs> = {
   argTypes: {
-    label: {
-      control: "text",
-      description: "A simple text input control",
-      table: { category: "Dummy Controls" },
-    },
     booleanControl: {
       control: "boolean",
       description: "A boolean toggle control",
@@ -70,6 +106,11 @@ export const DummyControls = {
     colorControl: {
       control: "color",
       description: "Color picker control",
+      table: { category: "Dummy Controls" },
+    },
+    textControl: {
+      control: "text",
+      description: "Text input control",
       table: { category: "Dummy Controls" },
     },
     selectControl: {
@@ -114,11 +155,11 @@ export const DummyControls = {
     },
   },
   args: {
-    label: "Sample Text",
     booleanControl: true,
     numberControl: 42,
     rangeControl: 50,
     colorControl: "#00ff00",
+    textControl: "Sample text",
     selectControl: "Option B",
     radioControl: "Radio 2",
     inlineRadioControl: "Inline 2",
@@ -127,4 +168,17 @@ export const DummyControls = {
     dateControl: new Date(),
     fileControl: [],
   },
+  render: (args) => {
+    return (
+      <pre
+        style={{
+          color: "var(--cds-text-primary)",
+        }}
+      >
+        {JSON.stringify(args, null, 2)}
+      </pre>
+    );
+  },
 };
+
+// Made with Bob

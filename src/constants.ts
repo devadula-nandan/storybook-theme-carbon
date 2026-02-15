@@ -1,12 +1,14 @@
 export const ADDON_ID = "Carbon theme";
 export const TOOL_ID = `${ADDON_ID}/tool`;
+export const TOGGLE_TOOL_ID = `${ADDON_ID}/toggle-tool`;
 
 export const EVENTS = {
   RESULT: `${ADDON_ID}/result`,
   REQUEST: `${ADDON_ID}/request`,
 };
 
-export const THEME_KEY = "carbonTheme";
+export const STORYBOOK_CARBON_THEME = "storybookCarbonTheme";
+export const CARBONIZED_STORYBOOK = "carbonizedStorybook";
 
 export const THEMES = [
   { value: "white", title: "White" },

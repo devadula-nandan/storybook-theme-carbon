@@ -5,42 +5,37 @@ import type {
   PartialStoryFn as StoryFunction,
 } from "storybook/internal/types";
 
-import { THEME_KEY } from "./constants";
+import { STORYBOOK_CARBON_THEME } from "./constants";
 
 export const withGlobals = (
   StoryFn: StoryFunction<Renderer>,
   context: StoryContext<Renderer>,
 ) => {
   const [globals] = useGlobals();
-  const carbonTheme = globals[THEME_KEY];
+  const storybookCarbonTheme = globals[STORYBOOK_CARBON_THEME];
   const canvas = context.canvasElement as ParentNode;
 
   // Is the addon being used in the docs panel
   // const isInDocs = context.viewMode === "docs";
 
   useEffect(() => {
-
     // set theme on iframe
-    document?.documentElement.setAttribute("storybook-carbon-theme", carbonTheme);
+    document?.documentElement.setAttribute(
+      "storybook-carbon-theme",
+      storybookCarbonTheme,
+    );
 
-    // need to be handled by storybook setups remove for production builds. only for testing.
-    // let backgroundColors = {
-    //   white: '#ffffff',
-    //   g10: '#f4f4f4',
-    //   g90: '#262626',
-    //   g100: '#161616',
-    // }
-    // // @ts-ignore
-    // document.body.style.backgroundColor = backgroundColors[carbonTheme];
+    // Set preview background to Carbon layer token
+    if (document.body) {
+      document.body.style.backgroundColor = "var(--cds-background)";
+    }
 
-
-    
     // if (!isInDocs) {
     //   addExtraContentToStory(canvas, {
-    //     carbonTheme,
+    //     storybookCarbonTheme,
     //   });
     // }
-  }, [carbonTheme]);
+  }, [storybookCarbonTheme]);
 
   return StoryFn();
 };
@@ -51,10 +46,10 @@ export const withGlobals = (
  */
 // function addExtraContentToStory(canvas: ParentNode, state: Object) {
 //   const preElement =
-//     canvas.querySelector(`[data-id="${THEME_KEY}"]`) ||
+//     canvas.querySelector(`[data-id="${STORYBOOK_CARBON_THEME}"]`) ||
 //     canvas.appendChild(document.createElement("pre"));
 
-//   preElement.setAttribute("data-id", THEME_KEY);
+//   preElement.setAttribute("data-id", STORYBOOK_CARBON_THEME);
 //   preElement.setAttribute(
 //     "style",
 //     `

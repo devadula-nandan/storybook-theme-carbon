@@ -1,0 +1,18 @@
+@use "@carbon/layout" as *;
+@use "@carbon/styles/scss/type" as *;
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/components/button/tokens" as button-tokens;
+@use "mixins" as *;
+@use "panel-shared" as *;
+
+/**
+ * DOCS STYLES
+ * Main styles for the Storybook docs page.
+ * Styles everything on the story MDX page
+ */
+
+#storybook-docs {
+  .sbdocs-preview > .docs-story {
+    background-color: $background;
+  }
+}

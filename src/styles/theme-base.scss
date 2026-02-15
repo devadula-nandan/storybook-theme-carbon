@@ -1,5 +1,5 @@
-@use '@carbon/styles/scss/theme' as *;
-@use '@carbon/styles/scss/themes';
+@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/themes";
 
 /**
  * CARBON THEME BASE
@@ -27,7 +27,7 @@
  * White Theme (Light)
  * IBM Design Language: White background
  */
-:root[storybook-carbon-theme='white'] {
+:root[storybook-carbon-theme="white"] {
   @include theme(themes.$white);
 }
 
@@ -35,7 +35,7 @@
  * Gray 10 Theme (Light)
  * IBM Design Language: Light gray background
  */
-:root[storybook-carbon-theme='g10'] {
+:root[storybook-carbon-theme="g10"] {
   @include theme(themes.$g10);
 }
 
@@ -43,7 +43,7 @@
  * Gray 90 Theme (Dark)
  * IBM Design Language: Dark gray background
  */
-:root[storybook-carbon-theme='g90'] {
+:root[storybook-carbon-theme="g90"] {
   @include theme(themes.$g90);
 }
 
@@ -51,6 +51,6 @@
  * Gray 100 Theme (Dark)
  * IBM Design Language: Black background
  */
-:root[storybook-carbon-theme='g100'] {
+:root[storybook-carbon-theme="g100"] {
   @include theme(themes.$g100);
 }
