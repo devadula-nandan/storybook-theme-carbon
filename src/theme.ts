@@ -65,7 +65,7 @@ export default create({
   // Brand
   brandTitle: `<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
   ${systemTheme === "dark" ? carbonLogoDark : carbonLogoLight}
-  <span style="color: var(--cds-text-primary); font-size: 14px; font-weight: 400; font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;">@carbon/react@${PackageInfo.version},</span>
+  <span style="color: var(--cds-text-primary); font-size: 14px; font-weight: 400; font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;">@carbon/react@${PackageInfo.version}</span>
   </div>`,
   brandUrl: PackageInfo.repository.url,
   brandTarget: "_blank",

@@ -57,9 +57,8 @@ export const ColorToken: StoryObj<ColorTokenArgs> = {
     return (
       <div
         style={{
-          width: "100%",
-          maxWidth: "50vh",
-          height: "50vh",
+          aspectRatio: "1",
+          height: "min(70vh, 200px)",
           backgroundColor: `var(${args.colorToken})`,
           // border: "1px solid var(--cds-background-inverse",
         }}

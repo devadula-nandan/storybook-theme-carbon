@@ -109,6 +109,8 @@
      * Rows containing control inputs
      */
     > tbody.docblock-argstable-body {
+      filter: none;
+
       /**
        * Standard Control Rows
        * Individual prop/arg rows with controls
@@ -116,6 +118,7 @@
       > tr:not([title]) > td {
         background: $background;
         border-color: $border-subtle;
+        color: $text-secondary;
 
         /**
          * Type Badges

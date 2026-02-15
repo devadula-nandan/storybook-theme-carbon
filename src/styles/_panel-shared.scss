@@ -11,7 +11,7 @@
  * Standard Panel Button
  * Used throughout panel tabs (Controls, A11y, etc.)
  */
-@mixin panel-button($size: 'small') {
+@mixin panel-button($size: "small") {
   @include button-size($size);
   @include button-complete;
 }
@@ -43,6 +43,7 @@
   textarea,
   select {
     @include input-border-bottom;
+    color: $text-secondary;
   }
 
   input:not([type="radio"]):not([type="checkbox"])::placeholder,
