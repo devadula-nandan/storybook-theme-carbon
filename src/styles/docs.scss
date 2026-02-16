@@ -15,17 +15,23 @@
   h1 {
     color: $text-primary;
     font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    @include type-style("heading-04");
+    font-weight: 300;
+    font-size: calc(2.25rem + 0.375 * (100vw - 42rem) / 24);
+    margin-block-start: 5rem;
   }
   h2 {
     color: $text-primary;
     font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    @include type-style("heading-03");
+    font-weight: 400;
+    font-size: calc(1.75rem + 0.25 * (100vw - 20rem) / 62);
+    margin-block-start: 5rem;
   }
   h3 {
     color: $text-primary;
     font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    @include type-style("heading-02");
+    font-weight: 400;
+    font-size: calc(1.25rem + 0 * (100vw - 20rem) / 62);
+    margin-block-start: 4rem;
   }
   h4 {
     color: $text-primary;
