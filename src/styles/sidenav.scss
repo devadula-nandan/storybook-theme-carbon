@@ -26,7 +26,7 @@ nav.sidebar-container {
    */
   .sidebar-header {
     button {
-      @include button-size('medium');
+      @include button-size("medium");
       @include button-complete;
 
       /**
@@ -82,8 +82,8 @@ nav.sidebar-container {
      * Clear button and other search controls
      */
     button {
-      @include button-size('medium');
-      @include button-complete(true, 'layer-02');
+      @include button-size("medium");
+      @include button-complete(true, "layer-02");
     }
 
     /**
@@ -100,8 +100,8 @@ nav.sidebar-container {
      */
     + div {
       button {
-        @include button-size('medium');
-        @include button-complete(true, 'layer-02');
+        @include button-size("medium");
+        @include button-complete(true, "layer-02");
         box-shadow: none;
       }
     }
@@ -115,7 +115,7 @@ nav.sidebar-container {
     color: $text-secondary;
 
     button {
-      @include button-size('medium');
+      @include button-size("medium");
       @include button-complete;
     }
   }
@@ -169,6 +169,10 @@ nav.sidebar-container {
       @include focus-state;
     }
 
-    @include button-states('layer-02');
+    > button {
+      color: $text-primary;
+    }
+
+    @include button-states("layer-02");
   }
 }

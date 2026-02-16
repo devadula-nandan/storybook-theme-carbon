@@ -7,8 +7,8 @@ export const EVENTS = {
   REQUEST: `${ADDON_ID}/request`,
 };
 
-export const STORYBOOK_CARBON_THEME = "storybookCarbonTheme";
-export const CARBONIZED_STORYBOOK = "carbonizedStorybook";
+export const STORYBOOK_CARBON_THEME = "storybook-carbon-theme";
+export const CARBONIZE_STORYBOOK = "carbonize-storybook";
 
 export const THEMES = [
   { value: "white", title: "White" },

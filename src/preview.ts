@@ -12,12 +12,18 @@ import type { ProjectAnnotations, Renderer } from "storybook/internal/types";
 import { themes } from "storybook/theming";
 
 import { STORYBOOK_CARBON_THEME } from "./constants";
-import { withGlobals } from "./withGlobals";
 import { loadDocStyles, isDocStylesLoaded } from "./utils/docStylesLoader";
 import {
   loadPreviewStyles,
   isPreviewStylesLoaded,
 } from "./utils/previewStylesLoader";
+
+const previewDocument = document;
+
+previewDocument.documentElement.setAttribute(
+  STORYBOOK_CARBON_THEME,
+  localStorage.getItem("storybook-carbon-theme") || "light",
+);
 
 /**
  * Note: if you want to use JSX in this file, rename it to `preview.tsx`
@@ -45,7 +51,7 @@ const getSystemTheme = () => {
 };
 
 const preview: ProjectAnnotations<Renderer> = {
-  decorators: [withGlobals],
+  // decorators: [withGlobals],
   parameters: {
     docs: {
       codePanel: true,

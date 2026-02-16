@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect } from "react";
 import { useGlobals } from "storybook/manager-api";
 import { IconButton } from "storybook/internal/components";
-import { CARBONIZED_STORYBOOK } from "../constants";
+import { CARBONIZE_STORYBOOK } from "../constants";
 import {
   loadManagerStyles,
   unloadManagerStyles,
@@ -30,27 +30,21 @@ const ToggleIcon = ({ enabled }: { enabled: boolean }) => (
 );
 
 const getInitialThemeEnabled = (): boolean => {
-  const stored = localStorage.getItem("carbonize-storybook");
-  return stored !== null ? stored === "true" : true;
+  return localStorage.getItem(CARBONIZE_STORYBOOK) === "true";
 };
 
-const initialEnabled = getInitialThemeEnabled();
-if (initialEnabled) {
-  loadManagerStyles();
-}
-
 export const CarbonizeToggle = memo(function CarbonizeToggle() {
-  const [globals, updateGlobals] = useGlobals();
-  const themeEnabled = globals[CARBONIZED_STORYBOOK] ?? initialEnabled;
-
+  const themeEnabled = getInitialThemeEnabled();
+  if (themeEnabled) {
+    loadManagerStyles();
+  }
   const handleToggle = useCallback(() => {
     const newEnabled = !themeEnabled;
-    updateGlobals({ [CARBONIZED_STORYBOOK]: newEnabled });
-    localStorage.setItem("carbonize-storybook", String(newEnabled));
+    localStorage.setItem(CARBONIZE_STORYBOOK, String(newEnabled));
 
     // Reload the page to ensure styles are properly applied/removed
     window.location.reload();
-  }, [themeEnabled, updateGlobals]);
+  }, [themeEnabled]);
 
   return (
     <IconButton
