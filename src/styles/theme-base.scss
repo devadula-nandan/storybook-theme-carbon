@@ -1,5 +1,6 @@
 @use "@carbon/styles/scss/theme" as *;
 @use "@carbon/styles/scss/themes";
+@use "@carbon/styles/scss/type" as *;
 
 /**
  * CARBON THEME BASE
@@ -21,6 +22,25 @@
  */
 :root {
   @include theme(themes.$white);
+
+  /**
+   * IBM Plex Fonts - Applied when carbonized
+   * Uses Carbon's type system which includes IBM Plex Sans, Mono, and Serif
+   */
+  &[carbonize-storybook="true"] {
+    font-family: font-family("sans");
+
+    * {
+      font-family: inherit;
+    }
+
+    code,
+    pre,
+    kbd,
+    samp {
+      font-family: font-family("mono");
+    }
+  }
 }
 
 /**
@@ -53,4 +73,9 @@
  */
 :root[storybook-carbon-theme="g100"] {
   @include theme(themes.$g100);
+}
+
+// story page preview
+body.sb-main-padded.sb-show-main {
+  background-color: $background;
 }

@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, within } from "storybook/test";
 import { colorCustomProperties } from "./story-helper";
+
+const RenderCounter = () => {
+  const [count, setCount] = useState(() =>
+    parseInt(localStorage.getItem("render-count-story") || "0"),
+  );
+  useEffect(() => {
+    const n = count + 1;
+    setCount(n);
+    localStorage.setItem("render-count-story", String(n));
+  }, []);
+  return (
+    <button
+      onClick={() => {
+        setCount(0);
+        localStorage.setItem("render-count-story", "0");
+      }}
+      style={{ cursor: "pointer" }}
+    >
+      Renders: {count} - Reset
+    </button>
+  );
+};
 
 interface ColorTokenArgs {
   colorToken: string;
@@ -180,4 +202,10 @@ export const DummyControls: StoryObj<DummyControlsArgs> = {
   },
 };
 
-// Made with Bob
+/**
+ * RENDER COUNTER
+ * A component that tracks how many times it has rendered
+ */
+export const RenderCounterStory: StoryObj = {
+  render: () => <RenderCounter />,
+};

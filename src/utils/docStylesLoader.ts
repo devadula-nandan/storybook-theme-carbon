@@ -1,17 +1,32 @@
 /**
- * Dynamically loads preview-specific styles (theme-base and docs)
+ * Documentation Styles Loader
+ * Dynamically loads styles for Storybook documentation pages
+ * Includes theme-base and docs-specific styles
  */
 
 let docStylesLoaded = false;
 
-export const loadDocStyles = () => {
+/**
+ * Loads documentation-specific styles
+ * Only loads once to prevent duplicate style injection
+ *
+ * @remarks
+ * This function dynamically imports:
+ * - theme-base.scss: Core Carbon theme variables and styles
+ * - docs.scss: Documentation page-specific styles
+ */
+export const loadDocStyles = (): void => {
   if (docStylesLoaded) return;
 
-  // Dynamically import preview styles
+  // Dynamically import documentation styles
   import("../styles/theme-base.scss");
   import("../styles/docs.scss");
 
   docStylesLoaded = true;
 };
 
-export const isDocStylesLoaded = () => docStylesLoaded;
+/**
+ * Checks if documentation styles have been loaded
+ * @returns True if styles are loaded, false otherwise
+ */
+export const isDocStylesLoaded = (): boolean => docStylesLoaded;

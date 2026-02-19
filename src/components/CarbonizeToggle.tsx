@@ -1,13 +1,17 @@
-import React, { memo, useCallback, useEffect } from "react";
-import { useGlobals } from "storybook/manager-api";
-import { IconButton } from "storybook/internal/components";
-import { CARBONIZE_STORYBOOK } from "../constants";
-import {
-  loadManagerStyles,
-  unloadManagerStyles,
-} from "../utils/managerStylesLoader";
+/**
+ * Carbonize Toggle Component
+ * Toggles between carbonized and non-carbonized Storybook themes
+ */
 
-const ToggleIcon = ({ enabled }: { enabled: boolean }) => (
+import React, { memo, useCallback } from "react";
+import { IconButton } from "storybook/internal/components";
+import { isCarbonized, setCarbonized } from "../utils/themeUtils";
+import { loadManagerStyles } from "../utils/managerStylesLoader";
+
+/**
+ * Carbon logo icon component
+ */
+const CarbonIcon = memo(() => (
   <svg
     focusable="false"
     preserveAspectRatio="xMidYMid meet"
@@ -18,43 +22,50 @@ const ToggleIcon = ({ enabled }: { enabled: boolean }) => (
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M24 28H30V30H24z"></path>
-    <circle cx="21" cy="29" r="1"></circle>
-    <circle cx="29" cy="25" r="1"></circle>
-    <path d="M20 24H26V26H20z" transform="matrix(-1 0 0 -1 46 50)"></path>
-    <path d="M24 20H30V22H24z"></path>
-    <circle cx="21" cy="21" r="1"></circle>
-    <path d="M21.4927,14.1299l-8.5-4.8149c-.3057-.1729-.6797-.1729-.9854,0L3.5073,14.1299c-.3135,.1777-.5073,.5098-.5073,.8701v10c0,.3604,.1938,.6924,.5073,.8701l8.5,4.8149,.9854-1.7402-7.9927-4.5278V15.583l7.5-4.2485,7.5,4.2485v2.417h2v-3c0-.3604-.1938-.6924-.5073-.8701Z"></path>
-    <path d="M25,15h2V7c0-.3604-.1938-.6924-.5073-.8701L17.9927,1.3149c-.3057-.1729-.6797-.1729-.9854,0L8.5074,6.1299l.9854,1.7402L17.5,3.3345l7.5,4.2485v7.417Z"></path>
+    <path d="M24 28H30V30H24z" />
+    <circle cx="21" cy="29" r="1" />
+    <circle cx="29" cy="25" r="1" />
+    <path d="M20 24H26V26H20z" transform="matrix(-1 0 0 -1 46 50)" />
+    <path d="M24 20H30V22H24z" />
+    <circle cx="21" cy="21" r="1" />
+    <path d="M21.4927,14.1299l-8.5-4.8149c-.3057-.1729-.6797-.1729-.9854,0L3.5073,14.1299c-.3135,.1777-.5073,.5098-.5073,.8701v10c0,.3604,.1938,.6924,.5073,.8701l8.5,4.8149,.9854-1.7402-7.9927-4.5278V15.583l7.5-4.2485,7.5,4.2485v2.417h2v-3c0-.3604-.1938-.6924-.5073-.8701Z" />
+    <path d="M25,15h2V7c0-.3604-.1938-.6924-.5073-.8701L17.9927,1.3149c-.3057-.1729-.6797-.1729-.9854,0L8.5074,6.1299l.9854,1.7402L17.5,3.3345l7.5,4.2485v7.417Z" />
   </svg>
-);
+));
 
-const getInitialThemeEnabled = (): boolean => {
-  return localStorage.getItem(CARBONIZE_STORYBOOK) === "true";
-};
+CarbonIcon.displayName = "CarbonIcon";
 
+/**
+ * Carbonize Toggle Component
+ * Enables/disables Carbon Design System styling for Storybook
+ */
 export const CarbonizeToggle = memo(function CarbonizeToggle() {
-  const themeEnabled = getInitialThemeEnabled();
-  if (themeEnabled) {
+  const isEnabled = isCarbonized();
+
+  // Load manager styles if carbonization is enabled on mount
+  if (isEnabled) {
     loadManagerStyles();
   }
+
+  /**
+   * Handles toggle action
+   * Updates localStorage and reloads the page to apply/remove styles
+   */
   const handleToggle = useCallback(() => {
-    const newEnabled = !themeEnabled;
-    localStorage.setItem(CARBONIZE_STORYBOOK, String(newEnabled));
+    const newState = !isEnabled;
+    setCarbonized(newState);
 
     // Reload the page to ensure styles are properly applied/removed
     window.location.reload();
-  }, [themeEnabled]);
+  }, [isEnabled]);
 
   return (
     <IconButton
-      title={themeEnabled ? "Decarbonize storybook" : "Carbonize storybook"}
-      active={themeEnabled}
+      title={isEnabled ? "Decarbonize Storybook" : "Carbonize Storybook"}
+      active={isEnabled}
       onClick={handleToggle}
     >
-      <ToggleIcon enabled={themeEnabled} />
+      <CarbonIcon />
     </IconButton>
   );
 });
-
-// Made with Bob

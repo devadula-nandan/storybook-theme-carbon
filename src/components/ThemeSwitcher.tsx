@@ -1,21 +1,28 @@
-import React, { memo, useEffect, useCallback, useRef } from "react";
-import { useGlobals, addons, type API } from "storybook/manager-api";
+/**
+ * Theme Switcher Component
+ * Provides a dropdown to select between Carbon Design System themes
+ */
+
+import React, { memo, useCallback } from "react";
+import { addons, type API } from "storybook/manager-api";
 import { themes } from "storybook/theming";
 import {
   IconButton,
   TooltipLinkList,
   WithTooltip,
 } from "storybook/internal/components";
+import { THEMES } from "../constants";
 import {
-  STORYBOOK_CARBON_THEME,
-  CARBONIZE_STORYBOOK,
-  THEMES,
-} from "../constants";
-import {
-  loadManagerStyles,
-  unloadManagerStyles,
-} from "../utils/managerStylesLoader";
+  getCurrentTheme,
+  setCurrentTheme,
+  getThemeCategory,
+  isCarbonized,
+  type CarbonTheme,
+} from "../utils/themeUtils";
 
+/**
+ * Theme icon component
+ */
 const ThemeIcon = memo(() => (
   <svg
     width="14"
@@ -33,19 +40,40 @@ const ThemeIcon = memo(() => (
   </svg>
 ));
 
-export const ThemeSwitcher = memo(function ThemeSwitcher({
-  api,
-}: {
+ThemeIcon.displayName = "ThemeIcon";
+
+interface ThemeSwitcherProps {
   api: API;
+}
+
+/**
+ * Theme Switcher Component
+ * Allows users to switch between Carbon Design System themes
+ */
+export const ThemeSwitcher = memo<ThemeSwitcherProps>(function ThemeSwitcher({
+  api,
 }) {
-  const handleSelectTheme = useCallback((themeValue: string) => {
+  const currentTheme = getCurrentTheme();
+
+  /**
+   * Handles theme selection
+   * Updates localStorage, DOM attribute, and Storybook theme if carbonized
+   */
+  const handleSelectTheme = useCallback((themeValue: CarbonTheme) => {
     const managerDocument = window.parent.document;
-    managerDocument.documentElement.setAttribute(
-      STORYBOOK_CARBON_THEME,
-      themeValue,
-    );
-    localStorage.setItem(STORYBOOK_CARBON_THEME, themeValue);
+
+    // Update theme in storage and DOM
+    setCurrentTheme(themeValue, managerDocument);
+
+    // Update Storybook theme if carbonized
+    if (isCarbonized()) {
+      const themeCategory = getThemeCategory(themeValue);
+      addons.setConfig({
+        theme: themeCategory === "light" ? themes.light : themes.dark,
+      });
+    }
   }, []);
+
   return (
     <WithTooltip
       placement="top"
@@ -56,24 +84,16 @@ export const ThemeSwitcher = memo(function ThemeSwitcher({
           links={THEMES.map((theme) => ({
             id: theme.value,
             title: theme.title,
-            active:
-              localStorage.getItem(STORYBOOK_CARBON_THEME) === theme.value,
+            active: currentTheme === theme.value,
             onClick: () => {
-              handleSelectTheme(theme.value);
+              handleSelectTheme(theme.value as CarbonTheme);
               onHide();
             },
           }))}
         />
       )}
     >
-      <IconButton
-        title="Carbon Theme"
-        active={
-          localStorage.getItem(STORYBOOK_CARBON_THEME) === "white"
-            ? true
-            : false
-        }
-      >
+      <IconButton title="Carbon Theme" active={currentTheme === "white"}>
         <ThemeIcon />
       </IconButton>
     </WithTooltip>

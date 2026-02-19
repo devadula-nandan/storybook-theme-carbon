@@ -5,12 +5,7 @@
 @use "mixins" as *;
 @use "panel-shared" as *;
 
-/**
- * DOCS STYLES
- * Main styles for the Storybook docs page.
- * Styles everything on the story MDX page
- */
-
+// docs page preview
 #storybook-docs {
   .sbdocs-preview > .docs-story {
     background-color: $background;
