@@ -1,6 +1,7 @@
-@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/theme";
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
-@use "mixins" as *;
+@use "mixins";
+@use "defaults";
 
 /**
  * GLOBAL STYLES
@@ -12,7 +13,7 @@
  * Uses Carbon theme tokens for consistent scrollbar colors
  */
 * {
-  scrollbar-color: $border-inverse $border-subtle-01 !important;
+  scrollbar-color: theme.$border-inverse theme.$border-subtle-01 !important;
 }
 
 /**
@@ -20,23 +21,29 @@
  * Sets default text color using Carbon's secondary text token
  */
 body {
-  color: $text-secondary !important;
-  background-color: $background;
+  color: theme.$text-secondary !important;
+  background-color: theme.$background;
 }
 
 /**
  * Text Selection
- * Custom selection color with transparency for better readability
- * Note: Using hardcoded blue color (IBM Blue 60 with 60% opacity)
+ * Custom selection color using Carbon theme token with transparency
+ * Uses focus color for consistency with Carbon Design System
  */
-$selection-color: #0f62fe60;
-
 ::selection {
-  background-color: $selection-color !important;
+  background-color: color-mix(
+    in srgb,
+    theme.$focus 60%,
+    transparent
+  ) !important;
 }
 
 ::-moz-selection {
-  background-color: $selection-color !important;
+  background-color: color-mix(
+    in srgb,
+    theme.$focus 60%,
+    transparent
+  ) !important;
 }
 
 /**
@@ -44,10 +51,10 @@ $selection-color: #0f62fe60;
  * Styles the root Storybook layout structure
  */
 #root > div > div {
-  border-color: $border-subtle-01;
+  border-color: theme.$border-subtle-01;
 
   > div:first-child::after {
-    background-color: $border-interactive;
+    background-color: theme.$border-interactive;
   }
 }
 
@@ -58,8 +65,8 @@ $selection-color: #0f62fe60;
 #storybook-preview-wrapper a[title="Skip to sidebar"]:focus {
   background-color: button-tokens.$button-secondary;
   border-radius: 0px;
-  color: $text-on-color;
-  box-shadow: $focus 0px 0px 0px 2px inset;
+  color: theme.$text-on-color;
+  box-shadow: theme.$focus 0px 0px 0px 2px inset;
 }
 
 /**
@@ -70,22 +77,20 @@ $selection-color: #0f62fe60;
   border-radius: 0 !important;
 
   > div {
-    background-color: $layer-01;
+    background-color: theme.$layer-01;
     border-radius: 0 !important;
-    color: $text-secondary !important;
+    color: theme.$text-secondary !important;
   }
 
   svg > path {
-    fill: $text-primary;
+    fill: theme.$text-primary;
   }
 
   button {
-    border-radius: 0;
+    @include mixins.button(null, "ghost", false, true);
 
     span {
-      color: $text-primary !important;
+      color: theme.$text-primary !important;
     }
-
-    @include button-states("layer-01");
   }
 }

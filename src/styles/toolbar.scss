@@ -1,7 +1,7 @@
-@use "@carbon/layout" as *;
-@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/layout";
+@use "@carbon/styles/scss/theme";
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
-@use "mixins" as *;
+@use "mixins";
 
 /**
  * TOOLBAR STYLES
@@ -10,8 +10,8 @@
  */
 
 .sb-bar {
-  background-color: $layer-01 !important;
-  border-bottom: 1px solid $border-subtle-01;
+  background-color: theme.$layer-01 !important;
+  border-bottom: 1px solid theme.$border-subtle-01;
   box-shadow: none !important;
 
   /**
@@ -28,7 +28,7 @@
      */
     [title="Viewport width"],
     [title="Viewport height"] {
-      color: $text-secondary;
+      color: theme.$text-secondary;
     }
   }
 
@@ -45,7 +45,7 @@
      * Visual dividers between toolbar buttons
      */
     button + span:not(.addon-collapsible-icon):has(+ button) {
-      background-color: $border-subtle-01;
+      background-color: theme.$border-subtle-01;
       margin: 0;
       block-size: 100%;
     }
@@ -56,21 +56,26 @@
      */
     button:not([role="tab"]),
     a {
-      @include button-size("large");
-      @include button-complete;
+      @include mixins.button("lg");
     }
   }
 
   /**
    * Selected/Active Non-Tab Button
    * Indicates active state for toggle buttons
+   * Using data attribute for better semantic meaning
    */
-  button.css-n2j2tx:not([role="tab"]) {
-    background-color: $background-selected;
+  button[data-selected="true"]:not([role="tab"]),
+  button[aria-pressed="true"]:not([role="tab"]) {
+    background-color: theme.$background-selected;
   }
 
-  .css-s1bs4u {
-    @include tab-active;
+  /**
+   * Active Tab Indicator (fallback for CSS class)
+   * Using attribute selector for maintainability
+   */
+  [class*="css-"][class*="active"] {
+    @include mixins.tab-active;
   }
 
   /**
@@ -78,14 +83,14 @@
    * Navigation tabs in the toolbar (e.g., Addons, Controls)
    */
   button[role="tab"] {
-    @include tab-button;
+    @include mixins.tab-button;
 
     /**
      * Badge/Counter on Tabs
      * Shows notification count or status
      */
     > div > div {
-      @include badge;
+      @include mixins.badge;
     }
 
     /**
@@ -93,7 +98,7 @@
      * Dropdown arrow for expandable tabs
      */
     .addon-collapsible-icon {
-      color: $text-primary;
+      color: theme.$text-primary;
       border-right: 4px solid transparent;
       border-left: 4px solid transparent;
       border-top: 6px solid;
@@ -105,14 +110,14 @@
    * Visual indicator for currently selected tab
    */
   button.tabbutton-active {
-    @include tab-active;
+    @include mixins.tab-active;
 
     /**
      * Active Tab Badge
      * Badge styling for active tab state
      */
     > div > div {
-      @include badge(true);
+      @include mixins.badge(true);
     }
   }
 }

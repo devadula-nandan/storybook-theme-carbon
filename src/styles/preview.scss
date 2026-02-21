@@ -1,13 +1,13 @@
-@use "@carbon/layout" as *;
-@use "@carbon/styles/scss/type" as *;
-@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/layout";
+@use "@carbon/styles/scss/type";
+@use "@carbon/styles/scss/theme";
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
-@use "mixins" as *;
-@use "panel-shared" as *;
+@use "mixins";
+@use "panel-shared";
 
 // docs page preview
 #storybook-docs {
   .sbdocs-preview > .docs-story {
-    background-color: $background;
+    background-color: theme.$background;
   }
 }

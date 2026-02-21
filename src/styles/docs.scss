@@ -1,9 +1,17 @@
-@use "@carbon/layout" as *;
-@use "@carbon/styles/scss/type" as *;
-@use "@carbon/styles/scss/theme" as *;
+@use "sass:list";
+
+@use "@carbon/styles/scss/spacing";
+@use "@carbon/layout";
+@use "@carbon/styles/scss/type";
+@use "@carbon/styles/scss/theme";
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
-@use "mixins" as *;
-@use "panel-shared" as *;
+@use "mixins";
+@use "panel-shared";
+
+// @use "@carbon/styles/scss/theme";
+@use "@carbon/styles/scss/utilities/focus-outline";
+
+@use "./defaults";
 
 /**
  * DOCS STYLES
@@ -14,73 +22,51 @@
 #storybook-docs {
   // markdown styles block
   .sbdocs-wrapper {
-    background-color: $background;
+    background-color: theme.$background;
+    // todo exclude unstyled
+    @include type.type-style("body-02");
 
-    // headings
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: $text-primary;
-    }
+    font-family: type.font-family("sans");
+    color: theme.$text-primary;
 
-    // paragraphs
-    p,
-    li {
-      color: $text-secondary;
-    }
+    @include mixins.link;
+    @include mixins.code;
+    // @include mixins.description-list;
+    // @include mixins.details;
+    // @include mixins.dialog;
+    // @include mixins.emphasis;
+    // @include mixins.fieldset;
+    // @include mixins.header-navigation;
+    @include mixins.heading;
+    @include mixins.horizontal-rule;
+    @include mixins.list;
+    @include mixins.paragraph;
 
-    h1 {
-      @include type-style("heading-06");
-      margin-block-start: 2rem;
-      margin-block-end: 0.5rem;
+    button.docblock-code-toggle {
+      @include mixins.button("sm", "secondary");
+      border-color: theme.$border-subtle;
     }
-
-    h2 {
-      @include type-style("heading-05");
-      margin-block-start: 1.5rem;
-      margin-block-end: 0.5rem;
-      border: none;
-    }
-    h3 {
-      @include type-style("heading-04");
-      margin-block-start: 1rem;
-      margin-block-end: 0.5rem;
-    }
-    h4 {
-      @include type-style("heading-03");
-      margin-block-start: 0.75rem;
-      margin-block-end: 0.5rem;
-    }
-    h5 {
-      @include type-style("heading-02");
-      margin-block-start: 0.5rem;
-      margin-block-end: 0.5rem;
-    }
-    h6 {
-      @include type-style("heading-01");
-      margin-block-start: 0.25rem;
-      margin-block-end: 0.5rem;
-    }
-
-    hr {
-      border-top: 1px solid $border-subtle-01;
-      margin: 1rem 0;
+    .docblock-source button {
+      @include mixins.button("sm", "secondary");
+      border-color: theme.$background-hover;
     }
   }
 
   .sbdocs-preview {
-    background-color: $background;
-    border-color: $border-subtle;
+    background-color: theme.$background;
+    border-color: theme.$border-subtle;
     border-radius: 0;
     box-shadow: none;
 
+    div {
+      border-radius: 0;
+    }
+
     .sb-bar {
-      background-color: $layer-01;
-      border-bottom: 1px solid $border-subtle;
+      background-color: theme.$layer-01;
+      border-bottom: 1px solid theme.$border-subtle;
       box-shadow: none;
+
       div {
         margin: 0 !important;
       }
@@ -88,29 +74,16 @@
       :has(> button) {
         gap: 0;
 
-        button:not([role="tab"]),
-        a {
-          @include button-size("large");
-          @include button-complete;
+        button {
+          @include mixins.button("lg");
         }
       }
     }
-
-    .docs-story {
-      // show code button
-      .docblock-code-toggle {
-        background-color: $layer-01;
-        border-radius: 0;
-        color: $text-primary;
-        border-top: 1px solid $border-subtle;
-        border-left: 1px solid $border-subtle;
-        font-size: 12px;
-
-        &:focus {
-          box-shadow: $focus 0px -2px 0px 0px inset;
-        }
-      }
-    }
+  }
+  .docblock-source {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid theme.$border-subtle;
   }
 
   /**
@@ -118,15 +91,13 @@
    * Table showing component props/args with editable controls
    */
   table.docblock-argstable {
-    * {
-      border-radius: 0;
-    }
-    /**
-     * Table Header
-     * Column titles (Name, Description, Type, etc.)
-     */
-    > thead.docblock-argstable-head > tr > th > span {
-      color: $text-primary;
+    @include mixins.argstable-base;
+
+    thead {
+      background-color: theme.$border-subtle;
+      button {
+        @include mixins.button("sm");
+      }
     }
 
     /**
@@ -141,20 +112,15 @@
        * Individual prop/arg rows with controls
        */
       > tr:not([title]) > td {
-        background: $background;
-        border-color: $border-subtle;
-        color: $text-secondary;
+        @include mixins.argstable-row;
 
         /**
          * Type Badges
          * Display type information (string, number, etc.)
+         * Note: Using attribute selectors instead of CSS class names for better maintainability
          */
-        .css-mkjjps,
-        .css-o1d7ko {
-          background: $layer-01;
-          border: 1px solid $border-subtle;
-          border-radius: 0;
-          color: $text-secondary;
+        [class*="css-"] {
+          @include mixins.argstable-type-badge;
         }
 
         /**
@@ -162,31 +128,43 @@
          * Shows which props are required
          */
         span[title="Required"] {
-          color: $support-error;
+          @include mixins.argstable-required;
         }
 
         /**
          * Form Controls
          * All input types within the controls table
          */
-        @include form-controls;
+        @include panel-shared.form-controls;
 
         /**
          * Radio Button Styling
          */
         input[type="radio"] {
-          @include radio-button;
+          @include panel-shared.radio-button;
+        }
+
+        /**
+         * Checkbox Styling
+         */
+        input[type="checkbox"]:not([role="switch"]) {
+          @include panel-shared.checkbox;
         }
 
         /**
          * Toggle Switch Styling
          */
-        @include toggle-switch;
+        @include panel-shared.toggle-switch;
 
         /**
          * Date/Time Inputs
          */
-        @include date-time-inputs;
+        @include panel-shared.date-time-inputs;
+
+        /**
+         * Range Inputs
+         */
+        @include panel-shared.range-input;
       }
 
       /**
@@ -194,31 +172,96 @@
        * Expandable rows for complex control types
        */
       > tr[title~="items"] {
-        background: $layer-01 !important;
-        box-shadow: inset 0px 0px 0px 1px $border-subtle;
-
-        /**
-         * Focus state for entire row
-         */
-        &:has(button:focus) {
-          box-shadow: inset 0 0 0 2px $focus !important;
-          background: $layer-01 !important;
-        }
-
-        > td {
-          background-color: transparent !important;
-          border: none;
-          color: $text-primary;
-
-          > span > svg {
-            color: $icon-primary;
-          }
-
-          > button:focus {
-            outline: none;
-          }
-        }
+        @include mixins.argstable-item-row;
       }
     }
   }
+}
+
+// // prism js inconsistently implemented in storybook
+// [storybook-carbon-theme="white"],
+// [storybook-carbon-theme="g10"] {
+//   @media (prefers-color-scheme: dark) {
+//     .docblock-source,
+//     pre.prismjs {
+//       background-color: theme.$background-inverse !important;
+//       // background-color: black;
+//     }
+//   }
+//   @media (prefers-color-scheme: light) {
+//     .docblock-source,
+//     pre.prismjs {
+//       background-color: theme.$layer !important;
+//     }
+//   }
+// }
+
+// [storybook-carbon-theme="g90"],
+// [storybook-carbon-theme="g100"] {
+//   @media (prefers-color-scheme: dark) {
+//     .docblock-source,
+//     pre.prismjs {
+//       background-color: theme.$layer !important;
+//     }
+//   }
+//   @media (prefers-color-scheme: light) {
+//     .docblock-source,
+//     pre.prismjs {
+//       background-color: theme.$background-inverse !important;
+//     }
+//   }
+// }
+
+// todo^ prismjs inconsistencies overrides
+[storybook-carbon-theme="white"],
+[storybook-carbon-theme="g10"] {
+  .css-8ycahn .css-4zr3vl {
+    background-color: #262626 !important;
+  }
+  .css-1dnv2kn .css-4zr3vl {
+    background-color: theme.$layer !important;
+  }
+}
+[storybook-carbon-theme="g90"],
+[storybook-carbon-theme="g100"] {
+  .css-8ycahn .css-4zr3vl {
+    background-color: theme.$layer !important;
+  }
+  .css-1dnv2kn .css-4zr3vl {
+    background-color: theme.$background-inverse !important;
+  }
+}
+// todo^ prismjs inconsistencies overrides
+
+.sbdocs-preview > div:last-child:not(.docs-story) {
+  button {
+    @include mixins.button("sm", "secondary");
+  }
+}
+
+.docblock-colorpalette {
+  * {
+    color: theme.$text-secondary !important;
+    border-radius: 0 !important;
+  }
+}
+
+.docblock-typeset {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: 1px solid theme.$border-subtle !important;
+  background-color: theme.$layer !important;
+  * {
+    color: theme.$text-primary !important;
+  }
+}
+
+.docblock-icongallery div > div:first-child {
+  background-color: theme.$layer;
+  border-radius: 0;
+  border: 1px solid theme.$border-subtle;
+  box-shadow: none;
+}
+.docblock-icongallery div > div:last-child {
+  color: theme.$text-primary;
 }

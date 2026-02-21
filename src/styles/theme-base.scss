@@ -1,6 +1,6 @@
-@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/styles/scss/theme";
 @use "@carbon/styles/scss/themes";
-@use "@carbon/styles/scss/type" as *;
+@use "@carbon/styles/scss/type";
 
 /**
  * CARBON THEME BASE
@@ -21,14 +21,14 @@
  * Applied when no theme attribute is present
  */
 :root {
-  @include theme(themes.$white);
+  @include theme.theme(themes.$white);
 
   /**
    * IBM Plex Fonts - Applied when carbonized
    * Uses Carbon's type system which includes IBM Plex Sans, Mono, and Serif
    */
   &[carbonize-storybook="true"] {
-    font-family: font-family("sans");
+    font-family: type.font-family("sans");
 
     * {
       font-family: inherit;
@@ -38,7 +38,7 @@
     pre,
     kbd,
     samp {
-      font-family: font-family("mono");
+      font-family: type.font-family("mono");
     }
   }
 }
@@ -48,7 +48,7 @@
  * IBM Design Language: White background
  */
 :root[storybook-carbon-theme="white"] {
-  @include theme(themes.$white);
+  @include theme.theme(themes.$white);
 }
 
 /**
@@ -56,7 +56,7 @@
  * IBM Design Language: Light gray background
  */
 :root[storybook-carbon-theme="g10"] {
-  @include theme(themes.$g10);
+  @include theme.theme(themes.$g10);
 }
 
 /**
@@ -64,7 +64,7 @@
  * IBM Design Language: Dark gray background
  */
 :root[storybook-carbon-theme="g90"] {
-  @include theme(themes.$g90);
+  @include theme.theme(themes.$g90);
 }
 
 /**
@@ -72,10 +72,10 @@
  * IBM Design Language: Black background
  */
 :root[storybook-carbon-theme="g100"] {
-  @include theme(themes.$g100);
+  @include theme.theme(themes.$g100);
 }
 
 // story page preview
 body.sb-main-padded.sb-show-main {
-  background-color: $background;
+  background-color: theme.$background;
 }

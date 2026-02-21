@@ -54,6 +54,7 @@ export default defineConfig(async (options) => {
     esbuildPlugins: [
       sassPlugin({
         type: "style",
+        quietDeps: true,
       }),
     ],
   };

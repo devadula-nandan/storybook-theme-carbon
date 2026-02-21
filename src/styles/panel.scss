@@ -1,8 +1,9 @@
-@use "@carbon/layout" as *;
-@use "@carbon/styles/scss/theme" as *;
+@use "@carbon/layout";
+@use "@carbon/styles/scss/theme";
+@use "@carbon/styles/scss/spacing";
 @use "@carbon/styles/scss/components/button/tokens" as button-tokens;
-@use "mixins" as *;
-@use "panel-shared" as *;
+@use "mixins";
+@use "panel-shared";
 
 /**
  * PANEL STYLES
@@ -13,27 +14,13 @@
 #panel-tab-content {
   height: calc(100% - 41px) !important;
   margin-top: 1px !important;
-  background: $background !important;
-
-  /**
-   * Loading State Backgrounds
-   * Inherit background for loading screens
-   */
-  .css-y6sd6u,
-  .css-1400aiw,
-  > div {
-    background-color: inherit;
-
-    > div {
-      background-color: inherit;
-    }
-  }
+  background: theme.$background !important;
 
   /**
    * Paragraph Text Color
    */
   p {
-    color: $text-secondary;
+    color: theme.$text-secondary;
   }
 
   /**
@@ -42,7 +29,7 @@
    */
   [data-radix-scroll-area-viewport] {
     + div > div {
-      background: $border-inverse;
+      background: theme.$border-inverse;
     }
   }
 
@@ -58,22 +45,18 @@
    */
   [id="save-from-controls"] {
     > div {
-      /**
-       * Custom CSS variable for highlight color
-       * Blends interactive border with layer background
-       */
       --highlight-bg-color: color-mix(
         in srgb,
         var(--cds-border-interactive) 30%,
         var(--cds-layer-01)
       );
 
-      background-color: $layer-01;
-      border-color: $border-subtle-01;
-      color: $text-secondary;
+      background-color: theme.$layer-01;
+      border-color: theme.$border-subtle-01;
+      color: theme.$text-secondary;
 
       button {
-        @include panel-button;
+        @include panel-shared.panel-button;
       }
     }
   }
@@ -83,7 +66,7 @@
    * Button to reset all controls to default values
    */
   button[title="Reset controls"] {
-    @include panel-button;
+    @include panel-shared.panel-button;
   }
 
   /**
@@ -91,12 +74,10 @@
    * Table showing component props/args with editable controls
    */
   table.docblock-argstable {
-    /**
-     * Table Header
-     * Column titles (Name, Description, Type, etc.)
-     */
-    > thead.docblock-argstable-head > tr > th > span {
-      color: $text-primary;
+    @include mixins.argstable-base;
+
+    > thead.docblock-argstable-head {
+      background-color: theme.$layer;
     }
 
     /**
@@ -109,20 +90,18 @@
        * Individual prop/arg rows with controls
        */
       > tr:not([title]) > td {
-        background: $background;
-        border-color: $border-subtle-01;
-        color: $text-secondary;
+        background: theme.$background;
+        border-color: theme.$border-subtle-01;
+        color: theme.$text-secondary;
 
         /**
          * Type Badges
          * Display type information (string, number, etc.)
+         * Using attribute selector instead of specific CSS classes
          */
-        .css-3qmh2b,
-        .css-6q7sni {
-          background: $layer-01;
-          border: 1px solid $border-subtle-01;
-          border-radius: 0;
-          color: $text-secondary;
+        [class*="css-"] {
+          @include mixins.argstable-type-badge;
+          border-color: theme.$border-subtle-01;
         }
 
         /**
@@ -130,31 +109,43 @@
          * Shows which props are required
          */
         span[title="Required"] {
-          color: $support-error;
+          @include mixins.argstable-required;
         }
 
         /**
          * Form Controls
          * All input types within the controls table
          */
-        @include form-controls;
+        @include panel-shared.form-controls;
+
+        /**
+         * Checkbox Styling
+         */
+        input[type="checkbox"]:not([role="switch"]) {
+          @include panel-shared.checkbox;
+        }
 
         /**
          * Radio Button Styling
          */
         input[type="radio"] {
-          @include radio-button;
+          @include panel-shared.radio-button;
         }
 
         /**
          * Toggle Switch Styling
          */
-        @include toggle-switch;
+        @include panel-shared.toggle-switch;
 
         /**
          * Date/Time Inputs
          */
-        @include date-time-inputs;
+        @include panel-shared.date-time-inputs;
+
+        /**
+         * Range Inputs
+         */
+        @include panel-shared.range-input;
       }
 
       /**
@@ -162,30 +153,8 @@
        * Expandable rows for complex control types
        */
       > tr[title~="items"] {
-        background: $layer-01 !important;
-        box-shadow: inset 0 1px 0 0 $border-subtle-01;
-
-        /**
-         * Focus state for entire row
-         */
-        &:has(button:focus) {
-          box-shadow: inset 0 0 0 2px $focus !important;
-          background: $layer-01 !important;
-        }
-
-        > td {
-          background-color: transparent !important;
-          border: none;
-          color: $text-primary;
-
-          > span > svg {
-            color: $icon-primary;
-          }
-
-          > button:focus {
-            outline: none;
-          }
-        }
+        @include mixins.argstable-item-row;
+        box-shadow: inset 0 1px 0 0 theme.$border-subtle-01;
       }
     }
   }
@@ -195,9 +164,9 @@
    * Syntax-highlighted code examples in docs
    */
   .docblock-source {
-    background-color: $background;
+    background-color: theme.$background;
     border-radius: 0;
-    border: 1px solid $border-subtle-01;
+    border: 1px solid theme.$border-subtle-01;
   }
 
   > div:has(.docblock-source) {
@@ -222,12 +191,12 @@
      */
     nav[aria-label="Component tests toolbar"] {
       box-sizing: content-box;
-      border-bottom: 1px solid $border-subtle-01;
+      border-bottom: 1px solid theme.$border-subtle-01;
       padding: 0;
-      background: $layer-01;
+      background: theme.$layer-01;
 
       > div > p {
-        color: $text-primary;
+        color: theme.$text-primary;
       }
 
       /**
@@ -235,8 +204,8 @@
        * Shows pass/fail/running status
        */
       div[aria-label="Status of the test run"] {
-        min-block-size: $spacing-08;
-        min-inline-size: $spacing-10;
+        min-block-size: spacing.$spacing-08;
+        min-inline-size: spacing.$spacing-10;
         border-radius: 0;
         align-content: center;
       }
@@ -252,15 +221,11 @@
        * Toolbar Buttons
        */
       button {
-        @include button-size("large");
-        @include button-reset;
+        @include mixins.button("lg");
         margin: 0;
 
-        &:not([disabled]) {
-          @include button-states;
-          &:focus {
-            @include focus-state;
-          }
+        &[disabled] {
+          @include mixins.button("lg", "ghost", true, false);
         }
       }
     }
@@ -271,10 +236,11 @@
      */
     div[aria-label="Interactions list"] {
       div:has(> button[aria-label="Interaction step"]) {
-        @include button-states;
+        @include mixins.button(null, "ghost", false);
       }
+
       > div {
-        border-color: $border-subtle-01 !important;
+        border-color: theme.$border-subtle-01 !important;
       }
     }
   }
@@ -290,9 +256,9 @@
    * Violations, Passes, Incomplete tabs
    */
   div:has(> div > [data-type="violations"]) {
-    background-color: $layer-01;
+    background-color: theme.$layer-01;
     padding: 0;
-    border-block-end: 1px solid $border-subtle-01;
+    border-block-end: 1px solid theme.$border-subtle-01;
     box-shadow: none;
 
     div[role="tablist"] + div {
@@ -304,8 +270,7 @@
      * Settings and other action buttons
      */
     button:not([role="tab"]) {
-      @include button-size("large");
-      @include button-complete;
+      @include mixins.button("lg");
     }
 
     /**
@@ -313,13 +278,13 @@
      * Violations, Passes, Incomplete tabs
      */
     button[role="tab"] {
-      @include tab-button;
+      @include mixins.tab-button;
 
       /**
        * Violation Count Badge
        */
       > div > div {
-        @include badge;
+        @include mixins.badge;
       }
     }
 
@@ -327,10 +292,10 @@
      * Active Tab State
      */
     button[data-active="true"] {
-      @include tab-active;
+      @include mixins.tab-active;
 
       > div > div {
-        @include badge(true);
+        @include mixins.badge(true);
       }
     }
   }
@@ -345,25 +310,25 @@
      * Clickable rows showing violation summary
      */
     [data-active] {
-      background-color: $layer-01;
+      background-color: theme.$layer-01;
 
       &:hover {
-        color: $interactive;
-        background-color: $layer-hover-01;
+        color: theme.$interactive;
+        background-color: theme.$layer-hover-01;
 
         + div {
-          background-color: $layer-hover-01;
+          background-color: theme.$layer-hover-01;
         }
       }
 
       > div:first-child {
         > div:last-child {
-          color: $text-secondary;
+          color: theme.$text-secondary;
         }
       }
 
       > :nth-last-child(2) {
-        color: $text-secondary;
+        color: theme.$text-secondary;
       }
 
       /**
@@ -371,7 +336,7 @@
        * Highlight, copy, etc.
        */
       > button {
-        @include panel-button;
+        @include panel-shared.panel-button;
       }
     }
 
@@ -380,27 +345,27 @@
      * Expanded view showing full violation information
      */
     [data-active] + [id*="details"] {
-      background-color: $layer-01;
+      background-color: theme.$layer-01;
 
       /**
        * Help Links
        * External links to WCAG guidelines
        */
       p > a > span {
-        color: $link-primary;
+        color: theme.$link-primary;
 
         > svg {
           margin-bottom: -1px;
 
           > path {
-            fill: $link-primary;
+            fill: theme.$link-primary;
           }
         }
       }
 
       > div:first-child {
         > div:first-child {
-          color: $text-secondary;
+          color: theme.$text-secondary;
         }
       }
 
@@ -411,16 +376,9 @@
       [role="tablist"],
       [role="tabpanel"] {
         button {
-          border-radius: 0;
-          color: $text-secondary;
-          background-color: $layer-02;
-          box-shadow: inset 0 0 0 1px $border-subtle-01;
-
-          @include button-states("layer-02");
-
-          &:focus {
-            @include focus-state;
-          }
+          @include mixins.button(null, "ghost", true, true);
+          color: theme.$text-secondary;
+          box-shadow: inset 0 0 0 1px theme.$border-subtle-01;
         }
       }
     }
@@ -431,7 +389,7 @@
     [data-radix-scroll-area-content] {
       > div {
         background-color: inherit;
-        border-color: $border-subtle-01;
+        border-color: theme.$border-subtle-01;
       }
     }
   }
