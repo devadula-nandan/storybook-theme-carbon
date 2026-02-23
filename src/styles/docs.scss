@@ -32,7 +32,7 @@
     @include mixins.link;
     @include mixins.code;
     // @include mixins.description-list;
-    // @include mixins.details;
+    @include mixins.details;
     // @include mixins.dialog;
     // @include mixins.emphasis;
     // @include mixins.fieldset;
@@ -41,6 +41,7 @@
     @include mixins.horizontal-rule;
     @include mixins.list;
     @include mixins.paragraph;
+    @include mixins.blockquote;
 
     button.docblock-code-toggle {
       @include mixins.button("sm", "secondary");

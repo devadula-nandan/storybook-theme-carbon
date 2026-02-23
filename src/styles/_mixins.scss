@@ -203,7 +203,7 @@ $button-kinds: (
 
   ul li {
     margin-inline-start: spacing.$spacing-05;
-    padding-inline-start: spacing.$spacing-05;
+    padding-inline-start: spacing.$spacing-03;
   }
 
   ul li p,
@@ -214,7 +214,6 @@ $button-kinds: (
   ol {
     list-style-type: decimal;
     padding: 0;
-    margin-inline-start: spacing.$spacing-05;
   }
 
   ol li {
@@ -259,6 +258,15 @@ $button-kinds: (
   }
 }
 
+@mixin blockquote {
+  blockquote {
+    border-left: 4px solid theme.$border-interactive;
+    padding-left: spacing.$spacing-05;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 @mixin horizontal-rule {
   hr {
     border-top: 1px solid theme.$border-subtle;
@@ -274,6 +282,10 @@ $button-kinds: (
 @mixin argstable-base {
   * {
     border-radius: 0;
+  }
+
+  input {
+    inline-size: 100%;
   }
 
   > thead.docblock-argstable-head > tr > th > span {
@@ -381,5 +393,84 @@ $button-kinds: (
     background-color: theme.$layer-01;
     border: 1px solid theme.$border-subtle;
     border-radius: 0;
+  }
+}
+
+/**
+ * Details and Summary Styling
+ * Provides consistent styling for collapsible details/summary elements
+ * Includes interactive states and proper spacing
+ */
+@mixin details {
+  details {
+    border-radius: 0;
+    padding: spacing.$spacing-08;
+    padding-block-end: 0;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid theme.$border-subtle;
+    }
+
+    > summary {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: normal;
+      color: theme.$text-primary;
+      list-style: none;
+      user-select: none;
+
+      padding: spacing.$spacing-03;
+      margin: calc(-1 * spacing.$spacing-08);
+      margin-block-end: spacing.$spacing-03;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &::before {
+        content: "⌃";
+        display: inline-flex;
+        justify-content: center;
+        align-items: end;
+        inline-size: spacing.$spacing-06;
+        block-size: spacing.$spacing-06;
+        margin-inline-end: spacing.$spacing-03;
+        font-size: 14px;
+        color: theme.$icon-primary;
+        transition: transform defaults.$transition-duration
+          defaults.$transition-timing-function;
+      }
+
+      &:hover {
+        background-color: theme.$background-hover;
+      }
+
+      &:active {
+        background-color: theme.$background-active;
+      }
+
+      &:focus {
+        outline: 2px solid theme.$focus;
+        outline-offset: -2px;
+      }
+    }
+
+    &:not([open]) > summary {
+      margin-block-end: 0;
+    }
+
+    &[open] {
+      padding-block-end: spacing.$spacing-05;
+
+      > summary::before {
+        transform: rotate(180deg);
+      }
+    }
+
+    > *:not(summary) {
+      margin-block-start: spacing.$spacing-03;
+    }
   }
 }

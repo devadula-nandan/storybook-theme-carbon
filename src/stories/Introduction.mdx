@@ -171,51 +171,50 @@ interface User {
 
 <Source
   code={`
-import React from 'react';
-import { Button } from '@carbon/react';
+  import React from 'react';
+  import { Button } from '@carbon/react';
 
-export const MyComponent = ({ label, onClick }) => {
-  return (
-    <Button onClick={onClick}>
-      {label}
-    </Button>
-  );
-};
+  export const MyComponent = ({ label, onClick }) => {
+    return (
+      <Button onClick={onClick}>
+        {label}
+      </Button>
+    );
+  };
   `}
   language="tsx"
-
 />
 
 ### CSS with Carbon Tokens
 
 <Source
   code={`
-.my-component {
-  background-color: var(--cds-layer-01);
-  color: var(--cds-text-primary);
-  padding: var(--cds-spacing-05);
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+  .my-component {
+    background-color: theme.$background;
+    color: var(--cds-text-primary);
+    padding: var(--cds-spacing-05);
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
 
-.my-component:hover {
-background-color: var(--cds-layer-hover-01);
-}
-`}
-language="css"
+  .my-component:hover {
+    background-color: theme.$background-hover;
+  }
+  `}
+  language="css"
 />
 
 ### JSON Configuration
 
 <Source
   code={`
-{
-  "name": "storybook-theme-carbon",
-  "version": "1.0.0",
-  "description": "Carbon Design System theme for Storybook",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts"
-}
+  {
+    "name": "storybook-theme-carbon",
+    "version": "1.0.0",
+    "description": "Carbon Design System theme for Storybook",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts"
+  }
   `}
   language="json"
 />
@@ -253,7 +252,25 @@ Line two
 </div>
 
 <details>
-  <summary>Click to expand</summary>
+  <summary>Section 1 title</summary>
+
+Hidden content works in MDX.
+
+- It supports Markdown
+- And formatting
+
+</details>
+<details>
+  <summary>Section 2 title</summary>
+
+Hidden content works in MDX.
+
+- It supports Markdown
+- And formatting
+
+</details>
+<details>
+  <summary>Section 3 title</summary>
 
 Hidden content works in MDX.
 

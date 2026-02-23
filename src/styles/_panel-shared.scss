@@ -239,7 +239,7 @@ $form-control-selector: "input:not([type='radio']):not([type='checkbox'])";
 
   // Label container for the toggle
   label:has(input[role="switch"]) {
-    background-color: theme.$background;
+    background-color: transparent;
     border-radius: spacing.$spacing-05;
     display: inline-flex;
   }

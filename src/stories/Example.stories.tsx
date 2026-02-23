@@ -62,7 +62,10 @@ export const ColorToken: StoryObj<ColorTokenArgs> = {
       control: { type: "select" },
       options: colorCustomProperties,
       description: "Select a Carbon Design System color token",
-      table: { category: "Color Tokens" },
+      table: {
+        category: "Color Tokens",
+        defaultValue: { summary: "--cds-layer-01" },
+      },
     },
   },
   args: {
@@ -112,67 +115,91 @@ export const DummyControls: StoryObj<DummyControlsArgs> = {
     booleanControl: {
       control: "boolean",
       description: "A boolean toggle control",
-      table: { category: "Dummy Controls" },
+      table: { category: "Dummy Controls", defaultValue: { summary: "true" } },
     },
     numberControl: {
       control: "number",
       description: "A number input control",
-      table: { category: "Dummy Controls" },
+      table: { category: "Dummy Controls", defaultValue: { summary: "42" } },
     },
     rangeControl: {
       control: { type: "range", min: 0, max: 100, step: 5 },
       description: "A slider (range) control",
-      table: { category: "Dummy Controls" },
+      table: { category: "Dummy Controls", defaultValue: { summary: "50" } },
     },
     colorControl: {
       control: "color",
       description: "Color picker control",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: "#00ff00" },
+      },
     },
     textControl: {
       control: "text",
       description: "Text input control",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: '"Sample text"' },
+      },
     },
     selectControl: {
       control: { type: "select" },
       options: ["Option A", "Option B", "Option C"],
       description: "Select dropdown control",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: '"Option B"' },
+      },
     },
     radioControl: {
       control: { type: "radio" },
       options: ["Radio 1", "Radio 2", "Radio 3"],
       description: "Radio button group",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: '"Radio 2"' },
+      },
     },
     inlineRadioControl: {
       control: { type: "inline-radio" },
       options: ["Inline 1", "Inline 2"],
       description: "Inline radio button group",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: '"Inline 2"' },
+      },
     },
     checkControl: {
       control: { type: "check" },
       options: ["Check A", "Check B", "Check C"],
       description: "Multi-select checkbox group",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: '["Check A", "Check C"]' },
+      },
     },
     inlineCheckControl: {
       control: { type: "inline-check" },
       options: ["Inline A", "Inline B"],
       description: "Inline checkbox group",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: '["Inline A"]' },
+      },
     },
     dateControl: {
       control: "date",
       description: "Date picker control",
-      table: { category: "Dummy Controls" },
+      table: {
+        category: "Dummy Controls",
+        defaultValue: { summary: "new Date()" },
+      },
     },
     fileControl: {
       control: "file",
       description: "File upload control (string[] expected)",
-      table: { category: "Dummy Controls" },
+      table: { category: "Dummy Controls", defaultValue: { summary: "[]" } },
     },
   },
   args: {
